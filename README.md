@@ -11,7 +11,8 @@ MMORPG 제작에 필요한 기준과 검사를 Agent Skills 형식(SKILL.md + �
 | `ue-asset-spec-check` | 에셋 네이밍, 텍스처, 스태틱 메시 규격 검사 | 수집은 언리얼 에디터, 판정은 Python |
 | `ue-perf-budget-check` | CSV Profiler 캡처를 60fps 예산과 비교 | Python |
 | `mmo-data-check` | 기획 데이터(CSV) 정합성 검사 | Python |
-| `mmo-netcode-review` | 복제/RPC 정적 검사와 넷코드 체크리스트 | Python |
+| `mmo-protocol-check` | FlatBuffers 패킷 정의 검사, 버전 호환 검사, C++ 헤더 생성 | Python |
+| `mmo-netcode-review` | 자체 서버용 넷코드 체크리스트, 언리얼 복제 문법 유입 검사 | Python |
 | `mmo-server-capacity` | 대역폭, 서버 수 어림 계산과 서버 구조 가이드 | Python |
 
 ## 설치
@@ -45,3 +46,5 @@ python run_tests.py
 - `ue-perf-budget-check`는 CSV Profiler 형식을 본뜬 가상 데이터로 테스트했다. 실제 5.8 캡처로는
   확인하지 않았다. 열 이름이 다르면 `GEN001`로 알려 주며, `perf-budget.json`의 `columns`에 추가하면 된다.
 - `mmo-netcode-review`의 검사기는 정규식 기반이다. 실제 프로젝트 코드에서 오탐과 누락이 있을 수 있다.
+- `mmo-protocol-check`는 FlatBuffers 문법의 일부만 해석한다. 예시 스키마(`game.fbs`)는 flatc로 컴파일해
+  확인하지 않았다. 생성되는 C++ 헤더는 g++(C++17)로 컴파일되는 것을 테스트에서 확인한다.

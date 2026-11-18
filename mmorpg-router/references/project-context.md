@@ -12,6 +12,7 @@
 | 목표 프레임 | 60fps 이상 (프레임 예산 16.67ms) |
 | 게임 서버 | 자체 서버. 언리얼 데디케이티드 서버를 쓰지 않는다 |
 | 서버 언어 | C++ |
+| 프로토콜 형식 | FlatBuffers. 클라이언트와 서버가 같은 `.fbs`에서 코드를 생성한다 |
 | 복제 시스템 | 해당 없음. 게임플레이 동기화에 언리얼 복제(Replicated, RPC, Iris, Replication Graph)를 쓰지 않는다 |
 
 ## 자체 서버 결정이 뜻하는 것
@@ -27,7 +28,7 @@
 |---|---|---|
 | 목표 동시 접속 (전체 / 월드 / 한 장소) | 나중에 결정 | `mmo-server-capacity` |
 | 서버 네트워크 라이브러리 (Boost.Asio / 자체 IOCP 등) | 미정 | `mmo-netcode-review` |
-| 프로토콜 형식 (Protobuf / FlatBuffers / 자체 형식) | 미정. FlatBuffers 검토 중 | 로드맵의 `mmo-protocol-check` |
+| `.fbs` 스키마 폴더 위치와 패킷 번호 대역 | 미정 | `mmo-protocol-check` |
 | 전송 방식 (TCP / UDP 기반 / 혼용) | 미정 | `mmo-netcode-review`, `mmo-server-capacity` |
 | 서버의 월드 데이터 (내비메시, 충돌) 내보내기 방식 | 미정 | 로드맵의 `ue-server-data-export` |
 | 월드 구성 (서버군 분리 / 존 분할 / 단일 월드) | 미정 | `mmo-server-capacity` |
@@ -47,3 +48,4 @@
 - `mmo-data-check/references/data-schema.json`
 - `mmo-server-capacity/references/scenario.json` (동시 접속과 서버 정원은 결정 전까지 가정값)
 - `mmo-netcode-review/references/lint-config.json`
+- `mmo-protocol-check/references/protocol-config.json`

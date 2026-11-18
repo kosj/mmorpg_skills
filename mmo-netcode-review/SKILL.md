@@ -14,8 +14,8 @@ description: Reviews networking code for an MMORPG with an Unreal Engine 5.8 cli
 - 아래의 검사기(`lint_replication.py`)는 언리얼 복제 문법을 찾는 도구다. 이 프로젝트에서는
   "쓰지 않기로 한 `Replicated`/RPC 지정자가 코드에 들어왔는지" 확인하는 용도로만 돌린다.
   지적이 하나라도 나오면 규칙 위반 여부를 따지기 전에, 그 코드가 왜 언리얼 복제를 쓰는지부터 확인한다.
-- 패킷 정의를 기계적으로 검사하는 스킬(`mmo-protocol-check`)은 아직 없다. 프로토콜 형식이
-  정해지면 만든다(`mmorpg-router/references/roadmap.md`).
+- 패킷 정의(`.fbs`) 자체의 검사는 `mmo-protocol-check`가 한다. 이 스킬은 그 패킷을 다루는
+  코드(핸들러, 클라이언트 네트워크 계층)를 본다.
 
 아래 절차는 언리얼 복제를 쓰는 코드를 볼 때의 절차다.
 
