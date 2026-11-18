@@ -13,6 +13,9 @@
 | 게임 서버 | 자체 서버. 언리얼 데디케이티드 서버를 쓰지 않는다 |
 | 서버 언어 | C++ |
 | 프로토콜 형식 | FlatBuffers. 클라이언트와 서버가 같은 `.fbs`에서 코드를 생성한다 |
+| 이동 컴포넌트 | Character Movement Component (CMC). 게임 코드는 자체 이동 인터페이스를 거친다. Mover는 UE6 이전 시 다시 평가한다 |
+| 플레이어 스켈레톤 | 1개 (공용 휴머노이드). 성별과 체형 차이는 스켈레톤을 늘리지 않고 메시 변형과 비율 조정으로 만든다 |
+| 탈것 스켈레톤 | 계열별 1개 (네발, 날개 달린 네발, 조류형 등). 같은 계열의 탈것은 스켈레톤과 애니메이션 세트를 공유한다 |
 | 복제 시스템 | 해당 없음. 게임플레이 동기화에 언리얼 복제(Replicated, RPC, Iris, Replication Graph)를 쓰지 않는다 |
 
 ## 자체 서버 결정이 뜻하는 것
@@ -32,9 +35,9 @@
 | 전송 방식 (TCP / UDP 기반 / 혼용) | 미정 | `mmo-netcode-review`, `mmo-server-capacity` |
 | 서버의 월드 데이터 (내비메시, 충돌) 내보내기 방식 | 미정 | 로드맵의 `ue-server-data-export` |
 | 월드 구성 (서버군 분리 / 존 분할 / 단일 월드) | 미정 | `mmo-server-capacity` |
-| 이동 컴포넌트 (Character Movement Component / Mover) | 미정. Mover는 5.8에서 Experimental | `ue-mount-flight`, `ue-animation-ik` |
 | 지형 (Landscape / Mesh Terrain) | 미정. Mesh Terrain은 5.8에서 Experimental | `ue-environment-worldbuilding` |
-| 체형과 종족 수 (스켈레톤 수) | 미정 | `ue-character-parts`, `ue-animation-ik`, `ue-client-contract` |
+| 체형 변형의 범위 (키와 비율을 어디까지 허용하는가) | 미정 | `ue-character-parts`, `ue-animation-ik` |
+| 탈것 계열 목록 | 미정. 예시는 네발(말)과 날개 달린 네발(그리핀) | `ue-mount-flight`, `ue-client-contract` |
 | 규약 데이터 폴더 위치, 이동 모드와 상태 이름 | 미정. 예시 값 사용 중 | `ue-client-contract` |
 | 최소/권장 PC 사양 | 미정 | `ue-perf-budget-check` (측정 기준 PC) |
 | 목표 해상도와 그래픽 프리셋 | 미정 | `ue-perf-budget-check` |
