@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "_note": "임시 기준값(PC/현세대 콘솔 가정). 프로젝트 기준으로 교체할 것.",
+  "roots": ["/Game"],
+  "exclude": ["/Game/Developers", "/Game/ThirdParty", "/Game/__ExternalActors__", "/Game/__ExternalObjects__"],
+  "naming": {
+    "allowed_pattern": "^[A-Za-z0-9_]+$",
+    "prefix": {
+      "StaticMesh": "SM_",
+      "SkeletalMesh": "SK_",
+      "Skeleton": "SKEL_",
+      "PhysicsAsset": "PHYS_",
+      "AnimSequence": "A_",
+      "AnimMontage": "AM_",
+      "AnimBlueprint": "ABP_",
+      "Texture2D": "T_",
+      "TextureCube": "TC_",
+      "Material": "M_",
+      "MaterialInstanceConstant": "MI_",
+      "MaterialFunction": "MF_",
+      "Blueprint": "BP_",
+      "WidgetBlueprint": "WBP_",
+      "NiagaraSystem": "NS_",
+      "NiagaraEmitter": "NE_",
+      "SoundWave": "SW_",
+      "SoundCue": "SC_",
+      "MetaSoundSource": "MSS_",
+      "DataTable": "DT_",
+      "CurveFloat": "CF_",
+      "LevelSequence": "LS_"
+    }
+  },
+  "texture": {
+    "power_of_two": true,
+    "max_size": 4096,
+    "max_size_overrides": [
+      {"path_prefix": "/Game/Characters/Hero", "max_size": 8192},
+      {"path_prefix": "/Game/UI", "max_size": 2048}
+    ],
+    "power_of_two_exempt_prefixes": ["/Game/UI"],
+    "suffix_rules": {
+      "_D": {"srgb": true},
+      "_BC": {"srgb": true},
+      "_N": {"srgb": false, "compression": "TC_NORMALMAP"},
+      "_ORM": {"srgb": false, "compression": "TC_MASKS"},
+      "_M": {"srgb": false, "compression": "TC_MASKS"},
+      "_E": {"srgb": true}
+    }
+  },
+  "static_mesh": {
+    "min_lods_non_nanite": 3,
+    "lod_exempt_below_tris": 1000,
+    "max_tris_lod0_non_nanite": 100000,
+    "max_tris_nanite": 5000000,
+    "require_collision": true,
+    "collision_exempt_prefixes": ["/Game/Environment/Foliage"],
+    "max_material_slots": 4
+  },
+  "severity": {
+    "NAME001": "error",
+    "NAME002": "error",
+    "TEX001": "error",
+    "TEX002": "error",
+    "TEX003": "warning",
+    "TEX004": "warning",
+    "SM001": "error",
+    "SM002": "warning",
+    "SM003": "error",
+    "SM004": "warning",
+    "GEN001": "info"
+  }
+}

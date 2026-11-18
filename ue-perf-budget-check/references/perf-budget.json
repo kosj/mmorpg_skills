@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "_note": "임시 기준값(Windows, 60fps 목표). 목표 사양 PC에서 측정한 값으로 교체할 것. 시간 단위는 ms.",
+  "target_fps": 60,
+  "frame_time_columns": ["FrameTime"],
+  "warmup_frames": 120,
+  "min_frames": 600,
+  "regression_pct": 10,
+  "bottleneck": {
+    "stat": "p95",
+    "threads": {
+      "게임 스레드": ["GameThreadTime"],
+      "렌더 스레드": ["RenderThreadTime"],
+      "GPU": ["GPUTime"]
+    }
+  },
+  "rules": [
+    {"id": "PERF001", "label": "평균 프레임 시간", "columns": ["FrameTime"], "stat": "avg", "max": 16.67, "unit": "ms", "severity": "error"},
+    {"id": "PERF002", "label": "프레임 시간 p99 (1% low 50fps 이상)", "columns": ["FrameTime"], "stat": "p99", "max": 20.0, "unit": "ms", "severity": "error"},
+    {"id": "PERF003", "label": "16.67ms 초과 프레임 비율", "columns": ["FrameTime"], "stat": "pct_over", "over": 16.67, "max": 5.0, "unit": "%", "severity": "warning"},
+    {"id": "PERF004", "label": "히치(33.34ms 초과) 비율", "columns": ["FrameTime"], "stat": "pct_over", "over": 33.34, "max": 0.5, "unit": "%", "severity": "error"},
+    {"id": "PERF010", "label": "게임 스레드 p95", "columns": ["GameThreadTime"], "stat": "p95", "max": 13.0, "unit": "ms", "severity": "warning"},
+    {"id": "PERF011", "label": "렌더 스레드 p95", "columns": ["RenderThreadTime"], "stat": "p95", "max": 13.0, "unit": "ms", "severity": "warning"},
+    {"id": "PERF012", "label": "GPU p95", "columns": ["GPUTime"], "stat": "p95", "max": 14.5, "unit": "ms", "severity": "warning"},
+    {"id": "PERF020", "label": "드로우 콜 p95", "columns": ["RHI/DrawCalls", "DrawCalls"], "stat": "p95", "max": 5000, "unit": "", "severity": "warning"},
+    {"id": "PERF030", "label": "물리 메모리 최대", "columns": ["PhysicalUsedMB", "MemoryFreeMB/PhysicalUsedMB"], "stat": "max", "max": 12000, "unit": "MB", "severity": "warning"}
+  ]
+}

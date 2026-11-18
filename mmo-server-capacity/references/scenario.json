@@ -1,0 +1,27 @@
+{
+  "_note": "전부 임시 가정값. 목표 동시 접속과 실측 패킷 크기로 교체할 것.",
+  "ccu_total": 3000,
+  "avg_ccu_ratio": 0.5,
+  "players_per_server_cap": 150,
+  "server_headroom": 0.3,
+  "aoi": {
+    "avg_visible_players": 20,
+    "max_visible_players": 60,
+    "avg_visible_npcs": 30
+  },
+  "rates": {
+    "player_update_hz": 10,
+    "npc_update_hz": 5,
+    "bytes_per_player_update": 40,
+    "bytes_per_npc_update": 24,
+    "server_send_hz": 30,
+    "client_send_hz": 30,
+    "bytes_per_client_input": 32,
+    "packet_overhead_bytes": 28
+  },
+  "budget": {
+    "client_down_kbps_max": 256,
+    "server_egress_mbps_max": 50,
+    "entity_updates_per_sec_max": 150000
+  }
+}

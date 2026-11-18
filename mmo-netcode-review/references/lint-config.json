@@ -1,0 +1,16 @@
+{
+  "_note": "검사기 설정. severity와 의심 단어 목록을 프로젝트에 맞게 조정할 것.",
+  "severity": {
+    "NET001": "error",
+    "NET002": "error",
+    "NET003": "warning",
+    "NET004": "info",
+    "NET005": "warning",
+    "NET006": "info"
+  },
+  "skip_dirs": ["Intermediate", "Binaries", "ThirdParty", "Saved", ".git"],
+  "authoritative_param_tokens": [
+    "damage", "dmg", "gold", "money", "currency", "exp", "xp", "price", "cost",
+    "reward", "health", "hp", "cooldown", "stat", "stats", "speed"
+  ]
+}

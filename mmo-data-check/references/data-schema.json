@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "_note": "예시 스키마. 테이블 이름, 열 이름, 범위는 프로젝트 데이터에 맞게 교체할 것.",
+  "tables": {
+    "items": {
+      "file": "items.csv",
+      "key": "id",
+      "columns": {
+        "id": {"type": "int", "min": 1, "required": true},
+        "name": {"type": "str", "required": true},
+        "grade": {"type": "str", "values": ["common", "uncommon", "rare", "epic", "legendary"], "required": true},
+        "level_req": {"type": "int", "min": 1, "max": 100},
+        "price_buy": {"type": "int", "min": 0},
+        "price_sell": {"type": "int", "min": 0},
+        "max_stack": {"type": "int", "min": 1, "max": 9999}
+      },
+      "checks": [
+        {"type": "lte", "left": "price_sell", "right": "price_buy", "why": "상점에서 사서 되팔아 골드를 무한히 벌 수 있음"}
+      ]
+    },
+    "monsters": {
+      "file": "monsters.csv",
+      "key": "id",
+      "columns": {
+        "id": {"type": "int", "min": 1, "required": true},
+        "name": {"type": "str", "required": true},
+        "level": {"type": "int", "min": 1, "max": 100, "required": true},
+        "hp": {"type": "int", "min": 1, "required": true},
+        "exp_reward": {"type": "int", "min": 0},
+        "gold_min": {"type": "int", "min": 0},
+        "gold_max": {"type": "int", "min": 0},
+        "drop_group": {"type": "int", "ref": "drops.group_id", "ref_allow": [0]}
+      },
+      "checks": [
+        {"type": "lte", "left": "gold_min", "right": "gold_max"}
+      ]
+    },
+    "drops": {
+      "file": "drops.csv",
+      "columns": {
+        "group_id": {"type": "int", "min": 1, "required": true},
+        "item_id": {"type": "int", "ref": "items.id", "required": true},
+        "prob": {"type": "float", "min": 0, "max": 1, "required": true},
+        "min_count": {"type": "int", "min": 1},
+        "max_count": {"type": "int", "min": 1}
+      },
+      "checks": [
+        {"type": "sum", "group_by": "group_id", "column": "prob", "max": 1.0},
+        {"type": "lte", "left": "min_count", "right": "max_count"}
+      ]
+    },
+    "levels": {
+      "file": "levels.csv",
+      "key": "level",
+      "columns": {
+        "level": {"type": "int", "min": 1, "max": 100, "required": true},
+        "exp_required": {"type": "int", "min": 0, "required": true}
+      },
+      "checks": [
+        {"type": "increasing", "order_by": "level", "column": "exp_required"},
+        {"type": "contiguous", "column": "level"}
+      ]
+    }
+  }
+}
