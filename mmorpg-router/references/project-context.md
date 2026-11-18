@@ -32,6 +32,10 @@
 | 전송 방식 (TCP / UDP 기반 / 혼용) | 미정 | `mmo-netcode-review`, `mmo-server-capacity` |
 | 서버의 월드 데이터 (내비메시, 충돌) 내보내기 방식 | 미정 | 로드맵의 `ue-server-data-export` |
 | 월드 구성 (서버군 분리 / 존 분할 / 단일 월드) | 미정 | `mmo-server-capacity` |
+| 이동 컴포넌트 (Character Movement Component / Mover) | 미정. Mover는 5.8에서 Experimental | `ue-mount-flight`, `ue-animation-ik` |
+| 지형 (Landscape / Mesh Terrain) | 미정. Mesh Terrain은 5.8에서 Experimental | `ue-environment-worldbuilding` |
+| 체형과 종족 수 (스켈레톤 수) | 미정 | `ue-character-parts`, `ue-animation-ik`, `ue-client-contract` |
+| 규약 데이터 폴더 위치, 이동 모드와 상태 이름 | 미정. 예시 값 사용 중 | `ue-client-contract` |
 | 최소/권장 PC 사양 | 미정 | `ue-perf-budget-check` (측정 기준 PC) |
 | 목표 해상도와 그래픽 프리셋 | 미정 | `ue-perf-budget-check` |
 | 대규모 전투 목표 인원 | 미정 | `mmo-server-capacity`, `ue-perf-budget-check` |
@@ -49,3 +53,12 @@
 - `mmo-server-capacity/references/scenario.json` (동시 접속과 서버 정원은 결정 전까지 가정값)
 - `mmo-netcode-review/references/lint-config.json`
 - `mmo-protocol-check/references/protocol-config.json`
+- `ue-client-contract/references/example/contract.json` (예산, 상태 이름, 소켓 이름 모두 예시)
+
+## 기술 선택 원칙
+
+- 최신 기능을 우선 검토하되, 본 제작의 전제로 삼는 것은 5.8에서 Production-Ready인 것으로 한다
+  (Mutable, Motion Matching, MegaLights, Iris 등). Experimental인 것(Mover, UAF, Mesh Terrain,
+  Procedural Vegetation Editor, MetaHuman Crowd)은 평가 대상으로 두고 교체 가능한 구조로 감싼다.
+- UE 5.8은 UE5의 마지막 주요 버전으로 예고되었다. 데이터(규약, 기획 데이터, 프로토콜)를 엔진 기능과
+  분리해 두는 것이 UE6 이전 대비책이다.

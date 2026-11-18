@@ -1,6 +1,6 @@
 ---
 name: mmorpg-router
-description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, protocol check, netcode review, server capacity. Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
+description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, protocol check, netcode review, server capacity, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
 ---
 
 # MMORPG 프로젝트 라우터
@@ -22,6 +22,13 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 | 패킷 정의(`.fbs`)를 추가/수정했다, 패킷 번호나 버전 호환을 확인한다 | `mmo-protocol-check` |
 | 패킷 핸들러, 클라이언트 네트워크 코드, 전투/인벤토리 동기화를 작성하거나 리뷰한다 | `mmo-netcode-review` |
 | 서버 구조, 동시 접속, 존 서버 수, 대역폭, 밀집 상황을 논의한다 | `mmo-server-capacity` |
+| 파츠, 탈것, 이동 모드, 애니메이션 세트, 부착 이펙트, 날씨, 바이옴을 추가/변경했다. 확장에 무엇이 더 필요한지 확인한다 | `ue-client-contract` |
+| 캐릭터 커스터마이징, 장비 외형, 코스튬, 염색 | `ue-character-parts` |
+| 이동 애니메이션, 애니메이션 세트, 리타기팅, 발/손 IK | `ue-animation-ik` |
+| 탈것, 탑승, 활공, 비행, 이동 모드 전환 | `ue-mount-flight` |
+| 스킬/피격/파츠/탈것 이펙트, 이펙트 최적화 | `ue-vfx-niagara` |
+| 날씨, 비/눈/안개/바람, 젖은 표면 | `ue-weather` |
+| 지형, 식생, 배경 에셋 제작과 배치, 바이옴 | `ue-environment-worldbuilding` |
 | 에디터를 직접 조작한다(액터 배치, 블루프린트 편집 등) | Epic의 `unreal-mcp` 스킬 |
 
 ## 여러 영역에 걸친 작업
@@ -31,10 +38,22 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 1. `mmo-data-check`: 데이터가 깨져 있으면 나머지 검증이 의미 없다.
 2. `mmo-protocol-check`: 패킷 정의 변경이 있을 때. 코드 생성 전에 돌린다.
 3. `mmo-netcode-review`: 네트워크 코드 변경이 있을 때.
-4. `ue-asset-spec-check`: 콘텐츠 변경이 있을 때.
-5. `ue-perf-budget-check`: 위가 통과한 빌드로 측정한다.
+4. `ue-client-contract`: 파츠, 탈것, 이동 모드, 이펙트, 날씨, 바이옴 변경이 있을 때.
+5. `ue-asset-spec-check`: 콘텐츠 변경이 있을 때.
+6. `ue-perf-budget-check`: 위가 통과한 빌드로 측정한다.
 
-예: "새 던전 추가"는 몬스터/드롭 데이터(1), 보스 패턴 패킷(2)과 핸들러(3), 던전 에셋(4), 던전 내 프레임(5)을 모두 본다.
+예: "새 던전 추가"는 몬스터/드롭 데이터(1), 보스 패턴 패킷(2)과 핸들러(3), 던전 에셋(5), 던전 내 프레임(6)을 모두 본다.
+
+예: "새 비행 탈것 추가"는 탈것 아이템 데이터(1), 탑승/이착륙 패킷(2)과 핸들러(3), 규약의 탈것·세트·소켓(4),
+탈것 메시(5), 비행 최고 속도에서의 스트리밍(6)을 본다. 만드는 방법은 `ue-mount-flight`, `ue-animation-ik`,
+`ue-vfx-niagara`가 다룬다.
+
+## 클라이언트 분야 스킬의 공통 규칙
+
+- 5.8 기능의 상태(Production-Ready, Experimental)는 각 스킬의 가이드에 조사한 내용이 있다. Experimental
+  기능을 본 제작의 전제로 삼는 제안을 할 때는 상태를 밝히고 안정된 대안을 함께 낸다.
+- 분야끼리의 연결(소켓, 상태 이름, 이동 모드, 이펙트 ID, 날씨 ID)은 `ue-client-contract`의 데이터로
+  적는다. 코드나 에셋에 다른 분야의 이름을 직접 적지 않는다.
 
 결과는 스킬별로 한 줄씩(통과/실패, error 수) 요약한 뒤 실패 항목만 자세히 전한다.
 
