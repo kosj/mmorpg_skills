@@ -19,7 +19,7 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 | 에셋을 추가/수정했다, 네이밍·텍스처·메시 규격을 확인한다 | `ue-asset-spec-check` |
 | 프레임이 나오는지 확인한다, 캡처를 분석한다, 빌드 간 성능을 비교한다 | `ue-perf-budget-check` |
 | 아이템·몬스터·드롭·레벨 등 기획 데이터를 추가/수정했다 | `mmo-data-check` |
-| 복제 액터, RPC, 전투/인벤토리 네트워크 코드를 작성하거나 리뷰한다 | `mmo-netcode-review` |
+| 패킷 정의, 패킷 핸들러, 클라이언트 네트워크 코드, 전투/인벤토리 동기화를 작성하거나 리뷰한다 | `mmo-netcode-review` |
 | 서버 구조, 동시 접속, 존 서버 수, 대역폭, 밀집 상황을 논의한다 | `mmo-server-capacity` |
 | 에디터를 직접 조작한다(액터 배치, 블루프린트 편집 등) | Epic의 `unreal-mcp` 스킬 |
 
