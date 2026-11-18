@@ -1,0 +1,11 @@
+id,name,type,level_req,prev_quests,objective_type,objective_target,objective_count,reward_exp,reward_gold,reward_items
+1,First Steps,main,1,,talk,,1,100,10,
+2,Thin the Herd,main,1,1,kill,101,8,300,20,2001
+3,Fang Collector,side,1,,collect,1001,6,200,15,
+4,To the Hills,main,2,2,reach,,1,300,20,
+5,Brute Force,main,3,4,kill,203,10,700,40,2003
+6,Hides for the Tanner,side,3,,collect,1003,12,500,30,
+7,Deeper In,main,5,5,kill,205,12,1500,80,2005
+8,Daily Hunt,daily,5,,kill,105,20,400,50,
+9,The Old Road,main,7,7,reach,,1,2500,150,
+10,Champion,main,9,9,kill,209,15,5000,300,2009|1009

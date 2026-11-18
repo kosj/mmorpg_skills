@@ -13,7 +13,8 @@
     "world_data_dir": "ServerData/World/Field_01",
     "map_versions": "Content/Data/map_versions.json",
     "asset_facts": "Saved/AssetSpec/facts.json",
-    "perf_csv_dir": "Saved/Profiling/CSV"
+    "perf_csv_dir": "Saved/Profiling/CSV",
+    "quests_csv": "Data/Tables/quests.csv"
   },
   "checks": [
     {
@@ -86,6 +87,33 @@
         "{skills}/mmo-economy-check/references/economy-config.json",
         "--md",
         "{reports}/economy.md"
+      ]
+    },
+    {
+      "id": "quest",
+      "title": "퀘스트 데이터",
+      "stages": [
+        "precommit",
+        "nightly"
+      ],
+      "triggers": [
+        "{quests_csv}",
+        "{data_dir}/monsters.csv",
+        "{data_dir}/drops.csv",
+        "{data_dir}/items.csv",
+        "{data_dir}/levels.csv"
+      ],
+      "inputs": [
+        "{quests_csv}"
+      ],
+      "command": [
+        "{python}",
+        "{skills}/mmo-quest-check/scripts/check_quests.py",
+        "{data_dir}",
+        "--config",
+        "{skills}/mmo-quest-check/references/quest-config.json",
+        "--md",
+        "{reports}/quest.md"
       ]
     },
     {

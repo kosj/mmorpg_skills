@@ -1,0 +1,21 @@
+id,name,grade,level_req,price_buy,price_sell,max_stack
+1001,Material Lv1,common,1,0,2,99
+1002,Material Lv2,common,2,0,2,99
+1003,Material Lv3,common,3,0,3,99
+1004,Material Lv4,common,4,0,4,99
+1005,Material Lv5,common,5,0,4,99
+1006,Material Lv6,common,6,0,6,99
+1007,Material Lv7,common,7,0,6,99
+1008,Material Lv8,common,8,0,8,99
+1009,Material Lv9,common,9,0,10,99
+1010,Material Lv10,common,10,0,12,99
+2001,Gear Lv1,common,1,1800,360,1
+2002,Gear Lv2,common,2,2196,439,1
+2003,Gear Lv3,uncommon,3,8037,1607,1
+2004,Gear Lv4,common,4,3269,654,1
+2005,Gear Lv5,uncommon,5,11963,2393,1
+2006,Gear Lv6,rare,6,38919,7784,1
+2007,Gear Lv7,common,7,5935,1187,1
+2008,Gear Lv8,uncommon,8,21723,4345,1
+2009,Gear Lv9,rare,9,70671,14134,1
+2010,Gear Lv10,epic,10,269433,53887,1
