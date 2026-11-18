@@ -1,6 +1,6 @@
 ---
 name: mmorpg-router
-description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, protocol check, netcode review, server capacity, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
+description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, combat skill data, protocol check, netcode review, server capacity, server world data export, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
 ---
 
 # MMORPG 프로젝트 라우터
@@ -19,6 +19,7 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 | 에셋을 추가/수정했다, 네이밍·텍스처·메시 규격을 확인한다 | `ue-asset-spec-check` |
 | 프레임이 나오는지 확인한다, 캡처를 분석한다, 빌드 간 성능을 비교한다 | `ue-perf-budget-check` |
 | 아이템·몬스터·드롭·레벨 등 기획 데이터를 추가/수정했다 | `mmo-data-check` |
+| 스킬 데이터(사거리, 쿨다운, 계수, 비용)를 추가/수정했다. 직업 간 피해량을 비교한다 | `mmo-combat-skill` |
 | 패킷 정의(`.fbs`)를 추가/수정했다, 패킷 번호나 버전 호환을 확인한다 | `mmo-protocol-check` |
 | 패킷 핸들러, 클라이언트 네트워크 코드, 전투/인벤토리 동기화를 작성하거나 리뷰한다 | `mmo-netcode-review` |
 | 서버 구조, 동시 접속, 존 서버 수, 대역폭, 밀집 상황을 논의한다 | `mmo-server-capacity` |
@@ -29,23 +30,25 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 | 스킬/피격/파츠/탈것 이펙트, 이펙트 최적화 | `ue-vfx-niagara` |
 | 날씨, 비/눈/안개/바람, 젖은 표면 | `ue-weather` |
 | 지형, 식생, 배경 에셋 제작과 배치, 바이옴 | `ue-environment-worldbuilding` |
+| 지형, 충돌, 스폰 지점, 볼륨을 바꿨다. 서버용 맵 데이터를 내보내고 버전을 맞춘다 | `ue-server-data-export` |
 | 에디터를 직접 조작한다(액터 배치, 블루프린트 편집 등) | Epic의 `unreal-mcp` 스킬 |
 
 ## 여러 영역에 걸친 작업
 
 작업 하나가 여러 스킬에 해당하면 아래 순서로 돌린다. 앞 단계의 실패가 뒤 단계 결과를 무의미하게 만들기 때문이다.
 
-1. `mmo-data-check`: 데이터가 깨져 있으면 나머지 검증이 의미 없다.
+1. `mmo-data-check`: 데이터가 깨져 있으면 나머지 검증이 의미 없다. 스킬 데이터가 바뀌었으면 `mmo-combat-skill`도 함께 돌린다.
 2. `mmo-protocol-check`: 패킷 정의 변경이 있을 때. 코드 생성 전에 돌린다.
 3. `mmo-netcode-review`: 네트워크 코드 변경이 있을 때.
 4. `ue-client-contract`: 파츠, 탈것, 이동 모드, 이펙트, 날씨, 바이옴 변경이 있을 때.
 5. `ue-asset-spec-check`: 콘텐츠 변경이 있을 때.
-6. `ue-perf-budget-check`: 위가 통과한 빌드로 측정한다.
+6. `ue-server-data-export`: 맵의 지형, 충돌, 스폰, 볼륨이 바뀌었을 때.
+7. `ue-perf-budget-check`: 위가 통과한 빌드로 측정한다.
 
-예: "새 던전 추가"는 몬스터/드롭 데이터(1), 보스 패턴 패킷(2)과 핸들러(3), 던전 에셋(5), 던전 내 프레임(6)을 모두 본다.
+예: "새 던전 추가"는 몬스터/드롭 데이터(1), 보스 패턴 패킷(2)과 핸들러(3), 던전 에셋(5), 던전 맵의 서버 데이터(6), 던전 내 프레임(7)을 모두 본다.
 
 예: "새 비행 탈것 추가"는 탈것 아이템 데이터(1), 탑승/이착륙 패킷(2)과 핸들러(3), 규약의 탈것·세트·소켓(4),
-탈것 메시(5), 비행 최고 속도에서의 스트리밍(6)을 본다. 만드는 방법은 `ue-mount-flight`, `ue-animation-ik`,
+탈것 메시(5), 비행 최고 속도에서의 스트리밍(7)을 본다. 만드는 방법은 `ue-mount-flight`, `ue-animation-ik`,
 `ue-vfx-niagara`가 다룬다.
 
 ## 클라이언트 분야 스킬의 공통 규칙

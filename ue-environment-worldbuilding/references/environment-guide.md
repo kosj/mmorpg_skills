@@ -77,7 +77,7 @@ UE 5.8은 UE5의 마지막 주요 버전으로 예고되었다. Experimental 기
 - 맵을 저장할 때 내보내기가 자동으로 돌게 한다. 손으로 하면 반드시 빠진다.
 - 내보낸 데이터에 맵 버전을 기록하고, 서버와 클라이언트가 접속 시 비교한다.
 - PCG로 생성한 통과 불가 오브젝트도 내보내기에 포함되는지 확인한다.
-- 이 검사를 맡을 `ue-server-data-export` 스킬은 아직 없다(`mmorpg-router/references/roadmap.md`).
+- 내보내기와 버전 검사는 `ue-server-data-export` 스킬로 한다.
 
 ## 6. 다른 시스템과의 연결
 

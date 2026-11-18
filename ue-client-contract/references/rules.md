@@ -19,12 +19,12 @@
 
 검사기 출력은 "틀렸다"가 아니라 "아직 없다"인 경우가 많다. 확장을 계획할 때는 지적 하나가 작업 하나다.
 
-- `LINK003 ... 모드 fly에 필요한 상태가 anim_set AS_Horse에 없음: takeoff, fly_idle, fly_move, fly_land`
-  → 말 스켈레톤용 비행 애니메이션 4개 제작
-- `LINK003 ... 좌석 0: 모드 fly에 필요한 탑승자 상태가 AS_Human_Ride_Horse에 없음: ride_takeoff, ride_fly, ride_land`
-  → 사람 스켈레톤용 비행 탑승 애니메이션 3개 제작
-- `LINK002 ... 소켓 'wing_tip_l'이(가) 스켈레톤 SK_Horse에 없음`
-  → 날개 본과 소켓 추가 (스켈레톤 변경은 기존 애니메이션 전체에 영향을 주므로 범위를 따로 확인)
+- `LINK003 ... 모드 dive에 필요한 상태가 anim_set AS_Quadruped에 없음: dive_start, dive_loop`
+  → 네발 스켈레톤용 급강하 애니메이션 2개 제작. 세트를 공유하므로 모든 네발 탈것이 함께 쓸 수 있게 된다
+- `LINK003 ... 좌석 0: 모드 dive에 필요한 탑승자 상태가 AS_Human_Ride_Quadruped에 없음: ride_dive`
+  → 사람 스켈레톤용 급강하 탑승 애니메이션 1개 제작
+- `LINK002 ... 소켓 'tail_tip'이(가) 스켈레톤 SK_Quadruped에 없음`
+  → 꼬리 본과 소켓 추가 (스켈레톤 변경은 기존 애니메이션 전체에 영향을 주므로 범위를 따로 확인)
 
 ## 검사기가 보지 못하는 것
 

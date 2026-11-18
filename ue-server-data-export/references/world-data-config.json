@@ -1,0 +1,26 @@
+{
+  "_note": "검사기 설정. 종류 목록과 필수 데이터를 프로젝트에 맞게 조정할 것.",
+  "required_kinds": ["nav_geometry", "spawns", "volumes"],
+  "kind_by_name": {
+    "nav.obj": "nav_geometry",
+    "spawns.json": "spawns",
+    "volumes.json": "volumes",
+    "bounds.json": "bounds",
+    "collision.obj": "collision"
+  },
+  "spawn_types": ["monster", "npc", "player_start", "gather"],
+  "volume_types": ["no_fly", "safe_zone", "no_spawn", "trigger", "water"],
+  "no_spawn_applies_to": ["monster", "gather"],
+  "min_world_extent": 1000,
+  "severity": {
+    "WORLD001": "error",
+    "WORLD002": "error",
+    "WORLD003": "error",
+    "WORLD004": "error",
+    "WORLD005": "error",
+    "WORLD006": "error",
+    "WORLD007": "error",
+    "WORLD008": "error",
+    "WORLD009": "warning"
+  }
+}
