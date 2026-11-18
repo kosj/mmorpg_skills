@@ -1,0 +1,31 @@
+{
+  "_note": "전부 임시값. 전역 쿨다운, 서버 틱, 최대 사거리, 기준 능력치를 프로젝트 값으로 교체할 것.",
+  "gcd_ms": 1000,
+  "server_tick_ms": 100,
+  "max_range_cm": 4000,
+  "classes": ["warrior", "mage", "ranger"],
+  "target_types": ["enemy", "ally", "self", "ground"],
+  "cost_types": ["none", "mana", "stamina"],
+  "modes": ["ground", "swim", "glide", "fly", "mounted"],
+  "reference": {
+    "attack_power": 100,
+    "resource_pool": 1000,
+    "resource_regen_per_sec": 20
+  },
+  "sim_seconds": 180,
+  "sim_mode": "ground",
+  "class_dps_tolerance_pct": 15,
+  "skill_outlier_ratio": 3.0,
+  "severity": {
+    "SKILL001": "error",
+    "SKILL002": "error",
+    "SKILL003": "error",
+    "SKILL004": "error",
+    "SKILL005": "warning",
+    "SKILL006": "error",
+    "SKILL007": "error",
+    "SKILL009": "warning",
+    "SKILL010": "warning",
+    "SKILL011": "info"
+  }
+}

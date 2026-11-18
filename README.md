@@ -11,6 +11,7 @@ MMORPG 제작에 필요한 기준과 검사를 Agent Skills 형식(SKILL.md + �
 | `ue-asset-spec-check` | 에셋 네이밍, 텍스처, 스태틱 메시 규격 검사 | 수집은 언리얼 에디터, 판정은 Python |
 | `ue-perf-budget-check` | CSV Profiler 캡처를 60fps 예산과 비교 | Python |
 | `mmo-data-check` | 기획 데이터(CSV) 정합성 검사 | Python |
+| `mmo-combat-skill` | 타겟팅 전투 스킬 데이터 검사, 직업별 DPS 어림 계산 | Python |
 | `mmo-protocol-check` | FlatBuffers 패킷 정의 검사, 버전 호환 검사, C++ 헤더 생성 | Python |
 | `mmo-netcode-review` | 자체 서버용 넷코드 체크리스트, 언리얼 복제 문법 유입 검사 | Python |
 | `mmo-server-capacity` | 대역폭, 서버 수 어림 계산과 서버 구조 가이드 | Python |

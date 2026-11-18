@@ -1,0 +1,14 @@
+id,name,class,target_type,range_cm,cast_time_ms,cooldown_ms,gcd,cost_type,cost,coefficient,base_damage,hits,dot_tick_ms,dot_duration_ms,dot_coefficient,aoe_radius_cm,max_targets,level_req,usable_modes
+1001,Slash,warrior,enemy,300,0,0,true,none,0,1.0,0,1,0,0,0,0,0,1,ground|mounted
+1002,Heavy Strike,warrior,enemy,300,0,6000,true,stamina,150,2.6,0,1,0,0,0,0,0,5,ground
+1003,Rend,warrior,enemy,300,0,12000,true,stamina,100,0.5,0,1,3000,12000,0.6,0,0,10,ground
+1004,Whirlwind,warrior,ground,300,0,15000,true,stamina,200,2.0,0,1,0,0,0,500,8,15,ground
+1005,Battle Shout,warrior,self,0,0,60000,false,none,0,0,0,1,0,0,0,0,0,8,ground|mounted|fly
+2001,Fire Bolt,mage,enemy,3000,1500,0,true,mana,30,2.0,0,1,0,0,0,0,0,1,ground
+2002,Ignite,mage,enemy,3000,0,10000,true,mana,60,0.4,0,1,2000,10000,0.5,0,0,5,ground|mounted
+2003,Meteor,mage,ground,3500,2500,20000,true,mana,150,4.0,0,1,0,0,0,600,10,15,ground
+2004,Blink,mage,self,0,0,15000,false,mana,40,0,0,1,0,0,0,0,0,10,ground
+3001,Quick Shot,ranger,enemy,3500,0,0,true,none,0,1.0,0,1,0,0,0,0,0,1,ground|mounted|fly
+3002,Aimed Shot,ranger,enemy,4000,2000,8000,true,stamina,120,3.6,0,1,0,0,0,0,0,5,ground
+3003,Poison Arrow,ranger,enemy,3500,0,12000,true,stamina,80,0.4,0,1,3000,12000,0.5,0,0,10,ground|mounted|fly
+3004,Volley,ranger,ground,3500,1000,18000,true,stamina,180,1.8,0,1,0,0,0,500,8,15,ground

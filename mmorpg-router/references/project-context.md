@@ -42,7 +42,8 @@
 | 최소/권장 PC 사양 | 미정 | `ue-perf-budget-check` (측정 기준 PC) |
 | 목표 해상도와 그래픽 프리셋 | 미정 | `ue-perf-budget-check` |
 | 대규모 전투 목표 인원 | 미정 | `mmo-server-capacity`, `ue-perf-budget-check` |
-| 기획 데이터 형식과 위치 | 미정 | `mmo-data-check` |
+| 기획 데이터 형식과 위치 | 미정 | `mmo-data-check`, `mmo-combat-skill` |
+| 직업 목록, 전역 쿨다운, 서버 틱 주기 | 미정. 예시 값 사용 중 | `mmo-combat-skill` |
 | 아트 스타일 (실사 / 스타일라이즈드) | 미정 | `ue-asset-spec-check` |
 
 ## 임시값으로 들어가 있는 것
@@ -55,6 +56,7 @@
 - `mmo-server-capacity/references/scenario.json` (동시 접속과 서버 정원은 결정 전까지 가정값)
 - `mmo-netcode-review/references/lint-config.json`
 - `mmo-protocol-check/references/protocol-config.json`
+- `mmo-combat-skill/references/combat-config.json` (전역 쿨다운, 서버 틱, 최대 사거리, 기준 능력치)
 - `ue-client-contract/references/example/contract.json` (예산, 상태 이름, 소켓 이름 모두 예시.
   구조는 프로젝트 결정대로 플레이어 스켈레톤 1개, 네발 탈것 스켈레톤 1개다)
 
