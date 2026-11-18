@@ -1,0 +1,8 @@
+ui.ok
+ui.cancel
+quest.kill
+item.count
+skill.desc.fire
+npc.greet
+common.percent
+mount.no_fly

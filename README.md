@@ -17,6 +17,8 @@ MMORPG 제작에 필요한 기준과 검사를 Agent Skills 형식(SKILL.md + �
 | `mmo-protocol-check` | FlatBuffers 패킷 정의 검사, 버전 호환 검사, C++ 헤더 생성 | Python |
 | `mmo-netcode-review` | 자체 서버용 넷코드 체크리스트, 언리얼 복제 문법 유입 검사 | Python |
 | `mmo-server-capacity` | 대역폭, 서버 수 어림 계산과 서버 구조 가이드 | Python |
+| `mmo-localization-check` | 문자열 표의 빠진 번역, 자리표시자 불일치, 폭 초과, 없는 키 | Python |
+| `mmo-release-check` | 클라이언트와 서버 빌드의 프로토콜·데이터·맵 일치 확인, 릴리스·점검·핫픽스·롤백 체크리스트 | Python |
 | `mmo-ci-pipeline` | 바뀐 파일에 맞는 검사를 한 번에 실행, 함께 바뀌어야 하는 파일 규칙, 통합 보고서 | Python |
 | `ue-server-data-export` | 서버용 맵 데이터(내비 지오메트리, 스폰, 볼륨) 묶음 생성과 검사, 클라이언트와의 맵 버전 일치 확인 | 수집은 언리얼 에디터, 묶기와 검사는 Python |
 | `ue-client-contract` | 파츠·탈것·이동 모드·애니메이션·IK·이펙트·날씨·바이옴의 연결 검사와 확장 시 필요한 것 계산 | Python |
@@ -47,7 +49,9 @@ Python 3.9 이상이면 된다. 외부 패키지는 쓰지 않는다.
 python run_tests.py
 ```
 
-각 스킬의 판정 로직 단위 테스트를 모두 실행한다.
+각 스킬의 판정 로직 단위 테스트와 팩 일관성 검사(`check_pack.py`)를 실행한다. 일관성 검사는 스킬마다
+SKILL.md 형식, 본문이 가리키는 파일, 스크립트가 내는 규칙 ID의 문서화 여부를 보고, 모든 스킬이 이 README와
+라우터, 검사 파이프라인에 연결되어 있는지 확인한다.
 
 ## 검증 상태
 

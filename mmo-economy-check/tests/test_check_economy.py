@@ -44,11 +44,34 @@ class Model(unittest.TestCase):
         self.assertEqual(c["gold_per_hour"], round((3 + 0.5 * 2 * 4) * kills))   # 골드 3 + 드롭 기대값 4
         self.assertEqual(c["hours"], 1.0)
 
+    def test_quest_rewards_shorten_leveling(self):
+        t = {"monsters": table("m", ["id", "level", "hp", "exp_reward", "gold_min", "gold_max", "drop_group"],
+                               [1, 1, 100, 7, 2, 4, 0]),
+             "drops": [], "items": [],
+             "levels": table("l", ["level", "exp_required"], [1, 0], [2, 1800]),
+             "quests": table("q", ["type", "level_req", "reward_exp", "reward_gold"],
+                             ["main", 1, 600, 50], ["side", 1, 300, 25], ["daily", 1, 5000, 999])}
+        rep = ce.analyze(t)
+        c = rep["curve"][0]
+        self.assertEqual(c["quest_exp_share"], 0.5)        # 900 / 1800. 일일 퀘스트는 세지 않는다
+        self.assertEqual(c["hours"], 0.5)                  # 남은 900을 시간당 1800으로
+        self.assertEqual(c["cum_gold"], round(0.5 * 3 * 3600 / 14) + 75)
+        self.assertTrue(rep["summary"]["quests_included"])
+
+    def test_level_fully_covered_by_quests_needs_no_monsters(self):
+        t = {"monsters": [], "drops": [], "items": [],
+             "levels": table("l", ["level", "exp_required"], [1, 0], [2, 1000]),
+             "quests": table("q", ["type", "level_req", "reward_exp", "reward_gold"], ["main", 1, 1500, 10])}
+        rep = ce.analyze(t)
+        self.assertEqual(rep["findings"], [])
+        self.assertEqual((rep["curve"][0]["hours"], rep["curve"][0]["quest_exp_share"]), (0.0, 1.0))
+
     def test_example_is_clean(self):
         rep = ce.analyze(tables())
         self.assertEqual(rep["findings"], [])
         hours = [c["hours"] for c in rep["curve"]]
         self.assertEqual(hours, sorted(hours))          # 레벨이 오를수록 오래 걸린다
+        self.assertFalse(rep["summary"]["quests_included"])   # 예시 폴더에는 퀘스트 표가 없다
         self.assertEqual(rep["summary"]["levels"], 10)
 
     def test_deterministic(self):

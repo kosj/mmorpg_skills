@@ -1,6 +1,6 @@
 ---
 name: mmo-ci-pipeline
-description: Runs the project's check skills together for the MMORPG - game data, combat skill data, economy, quests, protocol, netcode lint, client contract, server world data, asset spec and performance budget - selecting checks by the files that changed, enforcing files that must change together (a map change needs re-exported server data, a packet schema change needs an updated lock file), and producing one pass/fail report. Use before committing or submitting changes, when setting up pre-commit hooks or nightly builds, when asked which checks apply to a change, or when asked about 커밋 전 검사, 야간 빌드, CI, 전체 검사, 빌드 파이프라인.
+description: Runs the project's check skills together for the MMORPG - game data, combat skill data, economy, quests, localization strings, protocol, netcode lint, client contract, server world data, asset spec and performance budget - selecting checks by the files that changed, enforcing files that must change together (a map change needs re-exported server data, a packet schema change needs an updated lock file), and producing one pass/fail report. Use before committing or submitting changes, when setting up pre-commit hooks or nightly builds, when asked which checks apply to a change, or when asked about 커밋 전 검사, 야간 빌드, CI, 전체 검사, 빌드 파이프라인.
 ---
 
 # 검사 파이프라인

@@ -23,6 +23,7 @@
 | 전투 스킬 데이터 (`mmo-combat-skill`) | O | O | 아니오 |
 | 성장과 재화 흐름 (`mmo-economy-check`) | O | O | 아니오 |
 | 퀘스트 데이터 (`mmo-quest-check`) | O | O | 아니오 |
+| 현지화 문자열 (`mmo-localization-check`) | O | O | 아니오 |
 | 프로토콜 (`mmo-protocol-check`) | O | O | 아니오 |
 | 언리얼 복제 문법 유입 (`mmo-netcode-review`) | O | O | 아니오 |
 | 클라이언트 연결 규약 (`ue-client-contract`) | O | O | 아니오 |
@@ -88,7 +89,8 @@ python Skills/mmo-ci-pipeline/scripts/run_checks.py \
 2. 에디터 수집: 에셋 규격의 `run_check.py`, 월드 데이터의 `collect_level_data.py`를 커맨드릿으로 실행한다.
 3. 게임 빌드 후 성능 캡처: 정해진 장면(마을, 대규모 전투, 필드 이동, 던전)을 자동으로 돌려 CSV를 만든다.
 4. `run_checks.py --stage nightly`를 실행한다. 바뀐 파일 목록을 주지 않으므로 모든 검사가 돈다.
-5. 보고서를 팀 채널이나 메일로 보낸다. 실패한 검사와 담당 스킬 이름을 함께 적는다.
+5. 보고서(`--out`의 JSON)를 보관한다. 릴리스 때 `mmo-release-check`가 이 보고서의 통과 여부를 확인한다.
+6. 보고서를 팀 채널이나 메일로 보낸다. 실패한 검사와 담당 스킬 이름을 함께 적는다.
 
 - 2, 3단계가 실패하면 판정할 파일이 없어 "입력 없음"이 된다. 에셋과 성능 검사는 `required`가 false라
   실패로 세지 않으므로, 수집 단계의 성공 여부는 빌드 시스템에서 따로 확인한다.

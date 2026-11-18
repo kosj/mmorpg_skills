@@ -4,7 +4,8 @@
 
 입력은 mmo-data-check와 같은 CSV다: monsters.csv, drops.csv, items.csv, levels.csv.
 모델: 각 레벨의 플레이어는 자기 레벨 근처 몬스터 중 경험치 효율이 가장 좋은 것을 사냥한다.
-어림 계산이다. 퀘스트 보상, 거래, 제작, 파티 사냥은 들어 있지 않다.
+같은 폴더에 quests.csv가 있으면 일일 퀘스트를 뺀 퀘스트 보상을 레벨별로 더한다.
+어림 계산이다. 거래, 제작, 파티 사냥은 들어 있지 않다.
 종료 코드: 0 통과, 1 error 있음, 2 입력 문제.
 """
 import argparse
@@ -16,7 +17,9 @@ import sys
 from collections import Counter, defaultdict
 
 DEFAULT_CONFIG = {
-    "files": {"monsters": "monsters.csv", "drops": "drops.csv", "items": "items.csv", "levels": "levels.csv"},
+    "files": {"monsters": "monsters.csv", "drops": "drops.csv", "items": "items.csv", "levels": "levels.csv",
+              "quests": "quests.csv"},
+    "include_quests": True,
     "player": {"base_dps": 10.0, "dps_growth_per_level": 1.2, "downtime_sec_per_kill": 4.0},
     "hunt_level_below": 2,
     "hunt_level_above": 1,
@@ -58,6 +61,16 @@ def read_tables(folder, cfg):
             reader.fieldnames = header
             tables[name] = [(i, row) for i, row in enumerate(reader, start=2)
                             if any((v or "").strip() for v in row.values())]
+    # 퀘스트 표는 없어도 된다. 있으면 보상을 곡선에 더한다
+    tables["quests"] = []
+    qpath = os.path.join(folder, cfg["files"].get("quests", ""))
+    if cfg.get("include_quests") and os.path.isfile(qpath):
+        with open(qpath, newline="", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            reader.fieldnames = [h.strip() for h in (reader.fieldnames or [])]
+            if all(c in reader.fieldnames for c in ("type", "level_req", "reward_exp", "reward_gold")):
+                tables["quests"] = [(i, row) for i, row in enumerate(reader, start=2)
+                                    if any((v or "").strip() for v in row.values())]
     return tables
 
 
@@ -93,6 +106,17 @@ def analyze(tables, config=None):
     for d in drops:
         drop_value[int(d["group_id"])] += d["prob"] * (d["min_count"] + d["max_count"]) / 2 * sell.get(int(d["item_id"]), 0.0)
 
+    quest_exp, quest_gold = defaultdict(float), defaultdict(float)
+    for line, row in tables.get("quests", []):
+        if (row.get("type") or "").strip() == "daily":
+            continue
+        try:
+            lv = int(_num(row, "level_req"))
+            quest_exp[lv] += _num(row, "reward_exp")
+            quest_gold[lv] += _num(row, "reward_gold")
+        except ValueError:
+            add("ECON001", f"{cfg['files']['quests']}:{line}", "숫자가 아닌 값이 있어 계산에서 제외함")
+
     p = cfg["player"]
 
     def stats(m, player_level):
@@ -106,12 +130,21 @@ def analyze(tables, config=None):
     curve, cum_hours, cum_gold = [], 0.0, 0.0
     for cur, nxt in zip(levels, levels[1:]):
         lv = int(cur["level"])
+        need = nxt["exp_required"] - cur["exp_required"]
+        from_quests = min(quest_exp.get(lv, 0.0), need)
+        share = round(from_quests / need, 2) if need > 0 else 0
         pool = [stats(m, lv) for m in valid
                 if lv - cfg["hunt_level_below"] <= m["level"] <= lv + cfg["hunt_level_above"] and m["exp_reward"] > 0]
+        if not pool and need > 0 and from_quests >= need:
+            cum_gold += quest_gold.get(lv, 0.0)
+            curve.append({"level": lv, "monster": None, "exp_per_hour": 0, "gold_per_hour": 0, "hours": 0.0,
+                          "quest_exp_share": share, "cum_hours": round(cum_hours, 1), "cum_gold": round(cum_gold)})
+            continue
         if not pool:
             add("ECON004", f"레벨 {lv}", f"레벨 {lv - cfg['hunt_level_below']}~{lv + cfg['hunt_level_above']} 범위에 "
                                        "경험치를 주는 몬스터가 없음. 사냥으로 성장할 수 없는 구간")
-            curve.append({"level": lv, "monster": None, "exp_per_hour": 0, "gold_per_hour": 0, "hours": None})
+            curve.append({"level": lv, "monster": None, "exp_per_hour": 0, "gold_per_hour": 0, "hours": None,
+                          "quest_exp_share": share})
             continue
         best = max(pool, key=lambda s: (s["exp_per_hour"], -s["id"]))
         if len(pool) >= 3:
@@ -121,12 +154,12 @@ def analyze(tables, config=None):
                 if med > 0 and top[key] > med * cfg["efficiency_outlier_ratio"]:
                     add(rule, f"몬스터 {top['id']}", f"레벨 {lv} 기준 {label} 효율이 같은 구간 중앙값의 "
                                                    f"{top[key] / med:.1f}배. 모두가 이 몬스터만 잡게 됨")
-        hours = (nxt["exp_required"] - cur["exp_required"]) / best["exp_per_hour"]
+        hours = (need - from_quests) / best["exp_per_hour"]
         cum_hours += hours
-        cum_gold += hours * best["gold_per_hour"]
+        cum_gold += hours * best["gold_per_hour"] + quest_gold.get(lv, 0.0)
         curve.append({"level": lv, "monster": best["id"], "exp_per_hour": round(best["exp_per_hour"]),
                       "gold_per_hour": round(best["gold_per_hour"]), "hours": round(hours, 2),
-                      "cum_hours": round(cum_hours, 1), "cum_gold": round(cum_gold)})
+                      "quest_exp_share": share, "cum_hours": round(cum_hours, 1), "cum_gold": round(cum_gold)})
 
     known = [c for c in curve if c["hours"]]
     for prev, cur in zip(known, known[1:]):
@@ -159,6 +192,7 @@ def analyze(tables, config=None):
     by_sev = Counter(f["severity"] for f in uniq)
     summary = {"passed": by_sev.get("error", 0) == 0, "levels": len(curve),
                "hours_to_max": round(cum_hours, 1), "gold_to_max": round(cum_gold),
+               "quests_included": bool(tables.get("quests")),
                "error": by_sev.get("error", 0), "warning": by_sev.get("warning", 0),
                "by_rule": dict(sorted(Counter(f["rule"] for f in uniq).items()))}
     return {"summary": summary, "findings": uniq, "curve": curve}
@@ -166,16 +200,19 @@ def analyze(tables, config=None):
 
 def to_markdown(report):
     s = report["summary"]
-    lines = ["# 성장과 재화 흐름 검사 보고서", "", "사냥만으로 계산한 어림값이다. 퀘스트, 거래, 제작, 파티는 들어 있지 않다.", "",
+    basis = ("사냥과 퀘스트 보상(일일 제외)으로 계산한 어림값이다. 거래, 제작, 파티는 들어 있지 않다."
+             if s.get("quests_included") else "사냥만으로 계산한 어림값이다. 퀘스트, 거래, 제작, 파티는 들어 있지 않다.")
+    lines = ["# 성장과 재화 흐름 검사 보고서", "", basis, "",
              f"- 결과: {'통과' if s['passed'] else '실패'}",
              f"- 최고 레벨까지 약 {s['hours_to_max']}시간, 누적 골드 약 {s['gold_to_max']:,}",
              f"- error {s['error']} / warning {s['warning']}", "",
-             "## 레벨별 곡선", "", "| 레벨 | 사냥 몬스터 | 경험치/시간 | 골드/시간 | 레벨업 시간 | 누적 시간 |", "|---|---|---|---|---|---|"]
+             "## 레벨별 곡선", "", "| 레벨 | 사냥 몬스터 | 경험치/시간 | 골드/시간 | 퀘스트 비중 | 레벨업 시간 | 누적 시간 |", "|---|---|---|---|---|---|---|"]
     for c in report["curve"]:
         if c["hours"] is None:
-            lines.append(f"| {c['level']} | 없음 | - | - | - | - |")
+            lines.append(f"| {c['level']} | 없음 | - | - | {c['quest_exp_share'] * 100:.0f}% | - | - |")
         else:
-            lines.append(f"| {c['level']} | {c['monster']} | {c['exp_per_hour']:,} | {c['gold_per_hour']:,} | {c['hours']} | {c['cum_hours']} |")
+            lines.append(f"| {c['level']} | {c['monster'] or '-'} | {c['exp_per_hour']:,} | {c['gold_per_hour']:,} "
+                         f"| {c['quest_exp_share'] * 100:.0f}% | {c['hours']} | {c['cum_hours']} |")
     lines += ["", "## 지적 사항", "", "| 심각도 | 규칙 | 위치 | 내용 |", "|---|---|---|---|"]
     lines += [f"| {f['severity']} | {f['rule']} | {f['where']} | {f['message']} |" for f in report["findings"]]
     return "\n".join(lines) + "\n"

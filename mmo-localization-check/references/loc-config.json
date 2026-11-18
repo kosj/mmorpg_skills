@@ -1,0 +1,22 @@
+{
+  "_note": "원문 언어, 대상 언어, 폭 기준을 프로젝트에 맞게 조정할 것.",
+  "key_column": "key",
+  "source_language": "ko",
+  "required_languages": ["en"],
+  "optional_languages": [],
+  "max_width_column": "max_width",
+  "wide_char_width": 2,
+  "expansion_limit": {"default": 2.5},
+  "expansion_min_source_width": 8,
+  "same_as_source_ok_pattern": "^[\\W\\d_]*$",
+  "severity": {
+    "LOC001": "error",
+    "LOC002": "error",
+    "LOC003": "error",
+    "LOC004": "warning",
+    "LOC005": "warning",
+    "LOC006": "warning",
+    "LOC007": "error",
+    "LOC008": "error"
+  }
+}

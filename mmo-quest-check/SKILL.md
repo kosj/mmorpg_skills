@@ -37,8 +37,8 @@ description: Validates quest data for the MMORPG - prerequisite cycles, missing 
 
 - 드롭 확률이나 몬스터가 바뀌면 퀘스트도 다시 검사한다. 드롭 확률을 낮추면 수집 퀘스트의 필요
   사냥 수가 늘어난다(`QUEST013`).
-- 퀘스트 경험치는 `mmo-economy-check`의 성장 곡선에 들어 있지 않다. 이 스킬의 레벨별 표와
-  경제 검사의 레벨업 시간을 함께 봐야 실제 성장 속도를 가늠할 수 있다.
+- `mmo-economy-check`는 같은 폴더의 퀘스트 표를 읽어 퀘스트 보상을 성장 곡선에 더한다. 퀘스트 보상을
+  바꾸면 경제 검사의 레벨업 시간도 달라지므로 함께 돌린다.
 - NPC와 위치(대화, 도달 목표)는 이 검사가 보지 않는다. 스폰 지점 ID와의 연결은
   `ue-server-data-export`의 데이터가 정해지면 추가한다.
 
