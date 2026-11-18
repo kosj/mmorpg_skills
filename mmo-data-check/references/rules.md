@@ -46,7 +46,7 @@
 ### 테이블 검사(`checks`)
 
 - `{"type": "sum", "group_by": "A", "column": "B", "max": 1.0}`: A가 같은 행끼리 B의 합이 max 이하. `equals`와 `tolerance`도 쓸 수 있다
-- `{"type": "lte", "left": "A", "right": "B", "why": "설명"}`: A ≤ B
+- `{"type": "lte", "left": "A", "right": "B", "why": "설명"}`: A ≤ B. `"skip_when_right_zero": true`를 주면 B가 0인 행은 건너뛴다 (구매가 0은 상점에서 팔지 않는 아이템)
 - `{"type": "increasing", "order_by": "A", "column": "B"}`: A 순서로 정렬했을 때 B가 계속 증가
 - `{"type": "contiguous", "column": "A"}`: A의 최소~최대 사이에 빠진 정수가 없음
 

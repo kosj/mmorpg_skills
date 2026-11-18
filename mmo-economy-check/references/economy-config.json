@@ -1,0 +1,33 @@
+{
+  "_note": "전부 임시값. 플레이어 전투력과 허용 기준을 프로젝트 값으로 교체할 것.",
+  "files": {
+    "monsters": "monsters.csv",
+    "drops": "drops.csv",
+    "items": "items.csv",
+    "levels": "levels.csv"
+  },
+  "player": {
+    "base_dps": 10.0,
+    "dps_growth_per_level": 1.2,
+    "downtime_sec_per_kill": 4.0
+  },
+  "hunt_level_below": 2,
+  "hunt_level_above": 1,
+  "efficiency_outlier_ratio": 2.0,
+  "level_time_spike_ratio": 2.5,
+  "afford_hours_by_grade": {
+    "common": [0.05, 3],
+    "uncommon": [0.3, 8],
+    "rare": [1, 20],
+    "epic": [3, 60],
+    "legendary": [10, 200]
+  },
+  "severity": {
+    "ECON001": "error",
+    "ECON002": "warning",
+    "ECON003": "warning",
+    "ECON004": "error",
+    "ECON005": "warning",
+    "ECON006": "warning"
+  }
+}

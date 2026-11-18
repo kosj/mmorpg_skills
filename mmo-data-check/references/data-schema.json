@@ -15,7 +15,7 @@
         "max_stack": {"type": "int", "min": 1, "max": 9999}
       },
       "checks": [
-        {"type": "lte", "left": "price_sell", "right": "price_buy", "why": "상점에서 사서 되팔아 골드를 무한히 벌 수 있음"}
+        {"type": "lte", "left": "price_sell", "right": "price_buy", "skip_when_right_zero": true, "why": "상점에서 사서 되팔아 골드를 무한히 벌 수 있음"}
       ]
     },
     "monsters": {

@@ -57,6 +57,7 @@
 - `mmo-server-capacity/references/scenario.json` (동시 접속과 서버 정원은 결정 전까지 가정값)
 - `mmo-netcode-review/references/lint-config.json`
 - `mmo-protocol-check/references/protocol-config.json`
+- `mmo-economy-check/references/economy-config.json` (플레이어 기준 전투력, 등급별 구매 시간 기준)
 - `mmo-combat-skill/references/combat-config.json` (전역 쿨다운, 서버 틱, 최대 사거리, 기준 능력치)
 - `ue-client-contract/references/example/contract.json` (예산, 상태 이름, 소켓 이름 모두 예시.
   구조는 프로젝트 결정대로 플레이어 스켈레톤 1개, 네발 탈것 스켈레톤 1개다)
