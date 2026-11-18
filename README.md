@@ -13,6 +13,7 @@ MMORPG 제작에 필요한 기준과 검사를 Agent Skills 형식(SKILL.md + �
 | `mmo-data-check` | 기획 데이터(CSV) 정합성 검사 | Python |
 | `mmo-combat-skill` | 타겟팅 전투 스킬 데이터 검사, 직업별 DPS 어림 계산 | Python |
 | `mmo-economy-check` | 레벨별 성장 속도와 골드 수급 어림 계산, 효율이 튀는 몬스터와 가격 찾기 | Python |
+| `mmo-quest-check` | 퀘스트 선행 관계(순환), 목표와 보상 참조, 수집 퀘스트의 필요 사냥 수, 메인 퀘스트 흐름 | Python |
 | `mmo-protocol-check` | FlatBuffers 패킷 정의 검사, 버전 호환 검사, C++ 헤더 생성 | Python |
 | `mmo-netcode-review` | 자체 서버용 넷코드 체크리스트, 언리얼 복제 문법 유입 검사 | Python |
 | `mmo-server-capacity` | 대역폭, 서버 수 어림 계산과 서버 구조 가이드 | Python |

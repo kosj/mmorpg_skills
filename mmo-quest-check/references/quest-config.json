@@ -1,0 +1,31 @@
+{
+  "_note": "전부 임시값. 종류 목록과 허용 기준을 프로젝트에 맞게 조정할 것.",
+  "files": {
+    "quests": "quests.csv",
+    "monsters": "monsters.csv",
+    "items": "items.csv",
+    "drops": "drops.csv",
+    "levels": "levels.csv"
+  },
+  "types": ["main", "side", "daily"],
+  "objective_types": ["kill", "collect", "talk", "reach"],
+  "target_level_above": 2,
+  "target_level_below": 5,
+  "max_expected_kills": 60,
+  "main_level_gap": 2,
+  "max_exp_share_of_level": 0.5,
+  "severity": {
+    "QUEST001": "error",
+    "QUEST002": "error",
+    "QUEST003": "error",
+    "QUEST004": "warning",
+    "QUEST005": "error",
+    "QUEST006": "error",
+    "QUEST007": "warning",
+    "QUEST008": "error",
+    "QUEST009": "warning",
+    "QUEST010": "warning",
+    "QUEST011": "warning",
+    "QUEST013": "warning"
+  }
+}
