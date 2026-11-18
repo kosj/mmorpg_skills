@@ -152,7 +152,7 @@ def check(folder, config=None, client_versions=None, monster_ids=None):
             add("WORLD004", manifest["map"], "클라이언트 버전 정보에 이 맵이 없음")
         elif cv != manifest.get("map_version"):
             add("WORLD004", manifest["map"], f"서버 데이터 버전 {manifest.get('map_version')}과(와) 클라이언트가 가진 "
-                                             f"버전 {cv}이(가) 다름. 맵을 고친 뒤 내보내기를 다시 하지 않았음")
+                                             f"버전 {cv}이(가) 다름. 서버 데이터와 클라이언트 버전 파일이 함께 갱신되지 않았음")
 
     bounds = manifest.get("bounds") or {}
     lo, hi = bounds.get("min"), bounds.get("max")

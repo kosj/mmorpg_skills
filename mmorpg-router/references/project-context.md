@@ -36,6 +36,7 @@
 | 전송 방식 (TCP / UDP 기반 / 혼용) | 미정 | `mmo-netcode-review`, `mmo-server-capacity` |
 | 서버 내비메시 방식 (내보낸 OBJ를 서버에서 다시 빌드 / 엔진의 내비메시를 직접 저장) | 미정. 권장은 서버에서 다시 빌드 | `ue-server-data-export` |
 | 월드 구성 (서버군 분리 / 존 분할 / 단일 월드) | 미정 | `mmo-server-capacity` |
+| 소스 컨트롤 (Git + LFS / Perforce)과 프로젝트 폴더 구조 | 미정. 파이프라인 설정의 경로는 예시 | `mmo-ci-pipeline` |
 | 지형 (Landscape / Mesh Terrain) | 미정. Mesh Terrain은 5.8에서 Experimental | `ue-environment-worldbuilding` |
 | 체형 변형의 범위 (키와 비율을 어디까지 허용하는가) | 미정 | `ue-character-parts`, `ue-animation-ik` |
 | 규약 데이터 폴더 위치, 이동 모드와 상태 이름 | 미정. 예시 값 사용 중 | `ue-client-contract` |
