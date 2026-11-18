@@ -11,8 +11,16 @@ MMORPG 제작에 필요한 기준과 검사를 Agent Skills 형식(SKILL.md + �
 | `ue-asset-spec-check` | 에셋 네이밍, 텍스처, 스태틱 메시 규격 검사 | 수집은 언리얼 에디터, 판정은 Python |
 | `ue-perf-budget-check` | CSV Profiler 캡처를 60fps 예산과 비교 | Python |
 | `mmo-data-check` | 기획 데이터(CSV) 정합성 검사 | Python |
-| `mmo-netcode-review` | 복제/RPC 정적 검사와 넷코드 체크리스트 | Python |
+| `mmo-protocol-check` | FlatBuffers 패킷 정의 검사, 버전 호환 검사, C++ 헤더 생성 | Python |
+| `mmo-netcode-review` | 자체 서버용 넷코드 체크리스트, 언리얼 복제 문법 유입 검사 | Python |
 | `mmo-server-capacity` | 대역폭, 서버 수 어림 계산과 서버 구조 가이드 | Python |
+| `ue-client-contract` | 파츠·탈것·이동 모드·애니메이션·IK·이펙트·날씨·바이옴의 연결 검사와 확장 시 필요한 것 계산 | Python |
+| `ue-character-parts` | 파츠 조립 (Mutable, 소켓 부착), 다수 캐릭터 대응 | 문서 + 규약 검사 |
+| `ue-animation-ik` | Motion Matching, 애니메이션 세트, 리타기팅, 발/손 IK | 문서 + 규약 검사 |
+| `ue-mount-flight` | 탈것, 탑승, 활공, 비행, 이동 모드 설계 | 문서 + 규약 검사 |
+| `ue-vfx-niagara` | 이펙트 분류와 예산, 확장성, 부착 규칙 | 문서 + 규약 검사 |
+| `ue-weather` | 날씨 상태와 파라미터, 구성 요소, 게임플레이 연결 | 문서 + 규약 검사 |
+| `ue-environment-worldbuilding` | 지형, 식생, PCG 배치, 스트리밍, 서버 데이터 동기화 | 문서 + 규약 검사 |
 
 ## 설치
 
@@ -45,3 +53,9 @@ python run_tests.py
 - `ue-perf-budget-check`는 CSV Profiler 형식을 본뜬 가상 데이터로 테스트했다. 실제 5.8 캡처로는
   확인하지 않았다. 열 이름이 다르면 `GEN001`로 알려 주며, `perf-budget.json`의 `columns`에 추가하면 된다.
 - `mmo-netcode-review`의 검사기는 정규식 기반이다. 실제 프로젝트 코드에서 오탐과 누락이 있을 수 있다.
+- `ue-client-contract`는 규약 데이터끼리의 일치만 본다. 규약에 적힌 소켓이나 애니메이션이 에셋에 실제로
+  있는지는 확인하지 않는다.
+- 클라이언트 분야 스킬 6개의 가이드는 2026년 11월 기준 공개 자료로 조사한 5.8의 기능 상태를 담고 있다.
+  엔진에서 직접 실행해 확인한 내용이 아니다.
+- `mmo-protocol-check`는 FlatBuffers 문법의 일부만 해석한다. 예시 스키마(`game.fbs`)는 flatc로 컴파일해
+  확인하지 않았다. 생성되는 C++ 헤더는 g++(C++17)로 컴파일되는 것을 테스트에서 확인한다.

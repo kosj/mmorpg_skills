@@ -1,9 +1,25 @@
 ---
 name: mmo-netcode-review
-description: Reviews Unreal Engine 5.8 C++ networking code for an MMORPG - runs a static linter for replication and RPC mistakes (Replicated property not registered with DOREPLIFETIME, missing OnRep function, Reliable NetMulticast, Server RPCs that trust client-sent damage/gold/exp values, replicated TArray) and applies an MMO netcode checklist (server authority, relevancy, Iris vs Replication Graph). Use when writing or reviewing replicated actors, RPCs, combat or inventory networking, or when asked about 리플리케이션, RPC, 넷코드 리뷰, 서버 권한, 핵 방지, 동기화.
+description: Reviews networking code for an MMORPG with an Unreal Engine 5.8 client and a custom game server - applies packet design and server-side validation checklists for the custom protocol, and runs a static linter for replication and RPC mistakes (Replicated property not registered with DOREPLIFETIME, missing OnRep function, Reliable NetMulticast, Server RPCs that trust client-sent damage/gold/exp values, replicated TArray) and applies an MMO netcode checklist (server authority, relevancy, Iris vs Replication Graph). Use when writing or reviewing replicated actors, RPCs, combat or inventory networking, or when asked about 패킷, 프로토콜, 자체 서버, 리플리케이션, RPC, 넷코드 리뷰, 서버 권한, 핵 방지, 동기화.
 ---
 
 # MMORPG 넷코드 리뷰
+
+## 이 프로젝트는 자체 서버를 쓴다
+
+게임플레이 동기화에 언리얼 복제를 쓰지 않는다. 그래서:
+
+- 클라이언트 네트워크 코드, 패킷 정의, 패킷 핸들러를 작성/리뷰할 때는
+  `references/custom-server-guide.md`를 읽고 3절(패킷 설계)과 4절(서버 검증) 체크리스트로 본다.
+- 아래의 검사기(`lint_replication.py`)는 언리얼 복제 문법을 찾는 도구다. 이 프로젝트에서는
+  "쓰지 않기로 한 `Replicated`/RPC 지정자가 코드에 들어왔는지" 확인하는 용도로만 돌린다.
+  지적이 하나라도 나오면 규칙 위반 여부를 따지기 전에, 그 코드가 왜 언리얼 복제를 쓰는지부터 확인한다.
+- 패킷 정의(`.fbs`) 자체의 검사는 `mmo-protocol-check`가 한다. 이 스킬은 그 패킷을 다루는
+  코드(핸들러, 클라이언트 네트워크 계층)를 본다.
+
+아래 절차는 언리얼 복제를 쓰는 코드를 볼 때의 절차다.
+
+## 언리얼 복제 코드를 볼 때
 
 네트워크 코드를 두 단계로 본다. 먼저 스크립트로 기계적인 실수를 잡고, 그다음 체크리스트로
 설계를 본다. 스크립트가 잡는 항목은 눈으로 다시 찾지 않는다.
@@ -14,6 +30,7 @@ description: Reviews Unreal Engine 5.8 C++ networking code for an MMORPG - runs 
 - `references/lint-config.json`: 심각도, 의심 단어 목록.
 - `references/rules.md`: 규칙별 의미, 수정 방법, 오탐 처리, 검사기가 보지 못하는 것.
 - `references/netcode-guide.md`: MMO 넷코드 원칙과 체크리스트, 5.8의 복제 시스템 선택.
+- `references/custom-server-guide.md`: 자체 서버일 때의 클라이언트 구조, 패킷 설계, 서버 검증, 이동 동기화.
 
 ## 절차
 

@@ -1,0 +1,74 @@
+// 프로토콜 정의 예시. 규칙은 ../protocol-guide.md 참조.
+namespace Game.Protocol;
+
+// 프로젝트 규칙용 속성. flatc는 값만 보관하고, check_protocol.py가 검사한다.
+attribute "packet_id";  // 패킷 고유 번호. 한번 쓴 번호는 다시 쓰지 않는다
+attribute "dir";        // "c2s" 또는 "s2c". 이름 접두사로도 판별한다
+attribute "rate";       // 클라이언트→서버 패킷의 초당 허용 횟수
+attribute "max_len";    // 문자열/배열의 최대 길이
+
+enum EChatChannel : ubyte { Say = 0, Party = 1, Guild = 2, World = 3 }
+
+struct Vec3 {
+  x: float;
+  y: float;
+  z: float;
+}
+
+// ---- 클라이언트 → 서버: 의도만 보낸다 ----
+
+table C2S_Move (packet_id: 1001, rate: 20) {
+  seq: uint;            // 클라이언트 입력 순번. 서버 보정에 쓴다
+  position: Vec3;       // 클라이언트 예측 위치. 서버가 검증한다
+  yaw: short;
+  input_flags: ubyte;
+}
+
+table C2S_UseSkill (packet_id: 1002, rate: 10) {
+  skill_id: uint;
+  target_id: ulong;
+  aim: Vec3;
+}
+
+table C2S_Chat (packet_id: 1003, rate: 3) {
+  channel: EChatChannel;
+  text: string (max_len: 200);
+}
+
+table C2S_MoveItem (packet_id: 1004, rate: 10) {
+  from_slot: ushort;
+  to_slot: ushort;
+  count: ushort;
+}
+
+// ---- 서버 → 클라이언트: 결과를 알린다 ----
+
+table EntityState {
+  entity_id: ulong;
+  position: Vec3;
+  yaw: short;
+  hp: uint;
+}
+
+table S2C_MoveCorrect (packet_id: 2001) {
+  seq: uint;
+  position: Vec3;
+}
+
+table S2C_EntityUpdate (packet_id: 2002) {
+  entities: [EntityState];
+}
+
+table S2C_SkillResult (packet_id: 2003) {
+  caster_id: ulong;
+  target_id: ulong;
+  skill_id: uint;
+  damage: int;
+  is_critical: bool;
+}
+
+table S2C_Chat (packet_id: 2004) {
+  channel: EChatChannel;
+  sender_name: string;
+  text: string;
+}

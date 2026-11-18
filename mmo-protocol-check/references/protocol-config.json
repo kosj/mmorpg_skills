@@ -1,0 +1,23 @@
+{
+  "_note": "검사기 설정. 접두사, ID 범위, 의심 단어 목록을 프로젝트에 맞게 조정할 것.",
+  "severity": {
+    "PROTO001": "error",
+    "PROTO002": "error",
+    "PROTO003": "error",
+    "PROTO004": "warning",
+    "PROTO005": "error",
+    "PROTO006": "warning",
+    "PROTO007": "error",
+    "PROTO008": "error",
+    "PROTO009": "info",
+    "PROTO010": "info"
+  },
+  "c2s_prefixes": ["C2S_", "CS_"],
+  "s2c_prefixes": ["S2C_", "SC_"],
+  "packet_id_min": 1,
+  "packet_id_max": 65535,
+  "authoritative_field_tokens": [
+    "damage", "dmg", "gold", "money", "currency", "exp", "xp", "price", "cost",
+    "reward", "health", "hp", "cooldown", "stat", "stats", "speed"
+  ]
+}
