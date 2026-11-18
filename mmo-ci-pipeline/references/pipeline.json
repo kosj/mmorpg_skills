@@ -1,0 +1,131 @@
+{
+  "_note": "검사 실행 설정. vars의 경로는 전부 예시다. 프로젝트 구조에 맞게 바꿀 것. 경로는 root 기준 상대 경로.",
+  "vars": {
+    "root": ".",
+    "skills": "Skills",
+    "reports": "Saved/CheckReports",
+    "data_dir": "Data/Tables",
+    "skills_csv": "Data/Tables/skills.csv",
+    "monsters_csv": "Data/Tables/monsters.csv",
+    "schema_dir": "Protocol",
+    "source_dir": "Source",
+    "contract_dir": "Data/Contract",
+    "world_data_dir": "ServerData/World/Field_01",
+    "map_versions": "Content/Data/map_versions.json",
+    "asset_facts": "Saved/AssetSpec/facts.json",
+    "perf_csv_dir": "Saved/Profiling/CSV"
+  },
+  "checks": [
+    {
+      "id": "data",
+      "title": "기획 데이터",
+      "stages": ["precommit", "nightly"],
+      "triggers": ["{data_dir}/**"],
+      "inputs": ["{data_dir}"],
+      "command": ["{python}", "{skills}/mmo-data-check/scripts/check_data.py", "{data_dir}",
+                  "--schema", "{skills}/mmo-data-check/references/data-schema.json",
+                  "--md", "{reports}/data.md"]
+    },
+    {
+      "id": "combat",
+      "title": "전투 스킬 데이터",
+      "stages": ["precommit", "nightly"],
+      "triggers": ["{skills_csv}"],
+      "inputs": ["{skills_csv}"],
+      "command": ["{python}", "{skills}/mmo-combat-skill/scripts/check_skills.py", "{skills_csv}",
+                  "--config", "{skills}/mmo-combat-skill/references/combat-config.json",
+                  "--md", "{reports}/combat.md"]
+    },
+    {
+      "id": "protocol",
+      "title": "프로토콜",
+      "stages": ["precommit", "nightly"],
+      "triggers": ["{schema_dir}/**"],
+      "inputs": ["{schema_dir}"],
+      "command": ["{python}", "{skills}/mmo-protocol-check/scripts/check_protocol.py", "{schema_dir}",
+                  "--config", "{skills}/mmo-protocol-check/references/protocol-config.json",
+                  "--lock", "{schema_dir}/protocol.lock.json",
+                  "--md", "{reports}/protocol.md"]
+    },
+    {
+      "id": "netcode",
+      "title": "언리얼 복제 문법 유입",
+      "stages": ["precommit", "nightly"],
+      "triggers": ["{source_dir}/**/*.h", "{source_dir}/**/*.cpp"],
+      "inputs": ["{source_dir}"],
+      "command": ["{python}", "{skills}/mmo-netcode-review/scripts/lint_replication.py", "{source_dir}",
+                  "--config", "{skills}/mmo-netcode-review/references/lint-config.json",
+                  "--md", "{reports}/netcode.md"]
+    },
+    {
+      "id": "contract",
+      "title": "클라이언트 연결 규약",
+      "stages": ["precommit", "nightly"],
+      "triggers": ["{contract_dir}/**"],
+      "inputs": ["{contract_dir}"],
+      "command": ["{python}", "{skills}/ue-client-contract/scripts/check_contract.py", "{contract_dir}",
+                  "--md", "{reports}/contract.md", "--matrix", "{reports}/contract-matrix.md"]
+    },
+    {
+      "id": "world",
+      "title": "서버용 월드 데이터",
+      "stages": ["precommit", "nightly"],
+      "triggers": ["{world_data_dir}/**", "{map_versions}", "{monsters_csv}"],
+      "inputs": ["{world_data_dir}", "{map_versions}"],
+      "command": ["{python}", "{skills}/ue-server-data-export/scripts/check_world_data.py", "check", "{world_data_dir}",
+                  "--client-versions", "{map_versions}", "--monsters-csv", "{monsters_csv}",
+                  "--md", "{reports}/world.md"]
+    },
+    {
+      "id": "assets",
+      "title": "에셋 규격 (에디터가 수집한 facts.json 판정)",
+      "stages": ["nightly"],
+      "required": false,
+      "inputs": ["{asset_facts}"],
+      "command": ["{python}", "{skills}/ue-asset-spec-check/scripts/validate.py", "{asset_facts}",
+                  "{skills}/ue-asset-spec-check/references/asset-spec.json",
+                  "--md", "{reports}/assets.md"]
+    },
+    {
+      "id": "perf",
+      "title": "성능 예산 (가장 최근 캡처)",
+      "stages": ["nightly"],
+      "required": false,
+      "inputs": ["{perf_csv_dir}"],
+      "command": ["{python}", "{skills}/ue-perf-budget-check/scripts/analyze_csv.py", "--latest", "{perf_csv_dir}",
+                  "--budget", "{skills}/ue-perf-budget-check/references/perf-budget.json",
+                  "--md", "{reports}/perf.md"]
+    },
+    {
+      "id": "skill-tests",
+      "title": "스킬 팩 단위 테스트",
+      "stages": ["precommit", "nightly"],
+      "triggers": ["{skills}/**"],
+      "inputs": ["{skills}/run_tests.py"],
+      "command": ["{python}", "{skills}/run_tests.py"]
+    }
+  ],
+  "co_change": [
+    {
+      "id": "map-needs-server-data",
+      "title": "맵 변경 시 서버 데이터 갱신",
+      "when_changed": ["Content/**/*.umap", "Content/__ExternalActors__/**"],
+      "must_also_change": ["{world_data_dir}/**"],
+      "message": "맵이 바뀌었는데 서버용 월드 데이터가 함께 갱신되지 않음. ue-server-data-export의 내보내기와 build를 다시 할 것"
+    },
+    {
+      "id": "server-data-needs-client-version",
+      "title": "서버 데이터 변경 시 클라이언트 버전 파일 갱신",
+      "when_changed": ["{world_data_dir}/manifest.json"],
+      "must_also_change": ["{map_versions}"],
+      "message": "서버용 월드 데이터가 바뀌었는데 클라이언트의 map_versions.json이 함께 갱신되지 않음"
+    },
+    {
+      "id": "schema-needs-lock",
+      "title": "패킷 정의 변경 시 lock 갱신",
+      "when_changed": ["{schema_dir}/**/*.fbs"],
+      "must_also_change": ["{schema_dir}/protocol.lock.json"],
+      "message": "패킷 정의가 바뀌었는데 protocol.lock.json이 함께 갱신되지 않음. mmo-protocol-check의 --update-lock을 실행할 것"
+    }
+  ]
+}

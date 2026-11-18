@@ -1,6 +1,6 @@
 ---
 name: mmorpg-router
-description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, combat skill data, protocol check, netcode review, server capacity, server world data export, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
+description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, combat skill data, protocol check, netcode review, server capacity, server world data export, the check pipeline, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
 ---
 
 # MMORPG 프로젝트 라우터
@@ -31,11 +31,13 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 | 날씨, 비/눈/안개/바람, 젖은 표면 | `ue-weather` |
 | 지형, 식생, 배경 에셋 제작과 배치, 바이옴 | `ue-environment-worldbuilding` |
 | 지형, 충돌, 스폰 지점, 볼륨을 바꿨다. 서버용 맵 데이터를 내보내고 버전을 맞춘다 | `ue-server-data-export` |
+| 변경을 올리기 전에 관련 검사를 한 번에 돌린다. 커밋 전 훅이나 야간 빌드를 설정한다 | `mmo-ci-pipeline` |
 | 에디터를 직접 조작한다(액터 배치, 블루프린트 편집 등) | Epic의 `unreal-mcp` 스킬 |
 
 ## 여러 영역에 걸친 작업
 
-작업 하나가 여러 스킬에 해당하면 아래 순서로 돌린다. 앞 단계의 실패가 뒤 단계 결과를 무의미하게 만들기 때문이다.
+검사를 한 번에 돌리려면 `mmo-ci-pipeline`을 쓴다. 바뀐 파일로 필요한 검사를 골라 준다.
+손으로 하나씩 돌릴 때는 아래 순서를 따른다. 앞 단계의 실패가 뒤 단계 결과를 무의미하게 만들기 때문이다.
 
 1. `mmo-data-check`: 데이터가 깨져 있으면 나머지 검증이 의미 없다. 스킬 데이터가 바뀌었으면 `mmo-combat-skill`도 함께 돌린다.
 2. `mmo-protocol-check`: 패킷 정의 변경이 있을 때. 코드 생성 전에 돌린다.

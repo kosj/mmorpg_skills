@@ -110,7 +110,7 @@ World Partition 맵은 로드된 영역의 액터만 보인다. 내보내기 전
 | WORLD001 | manifest가 없거나 읽을 수 없다 | `build`를 실행한다 |
 | WORLD002 | 파일이 없거나 내용이 manifest와 다르다 | 내보낸 뒤 파일을 고쳤다면 `build`를 다시 한다 |
 | WORLD003 | 필수 데이터가 묶음에 없다 | 빠진 파일을 내보낸다. `nav.obj`가 흔히 빠진다 |
-| WORLD004 | 서버 데이터의 맵 버전이 클라이언트와 다르다 | 내보내기와 `build`를 다시 하고, 갱신된 `map_versions.json`을 함께 커밋한다 |
+| WORLD004 | 서버 데이터의 맵 버전이 클라이언트와 다르다. 한쪽만 갱신된 것이다 | 내보내기와 `build`를 다시 하고, 갱신된 `map_versions.json`을 함께 커밋한다. 맵을 고치고 내보내기를 아예 하지 않은 경우는 이 규칙이 아니라 `mmo-ci-pipeline`의 함께 바뀌어야 하는 파일 규칙이 잡는다 |
 | WORLD005 | 스폰 문제: ID 중복, 알 수 없는 종류, 범위 밖, 스폰 금지 볼륨 안, count 오류 | 레벨에서 해당 액터를 고친다 |
 | WORLD006 | 스폰이 기획 데이터에 없는 몬스터를 가리킨다 | 태그의 `ref_id`를 고치거나 기획 데이터에 몬스터를 추가한다 |
 | WORLD007 | 볼륨 문제: ID 중복, 알 수 없는 종류, min이 max보다 큼, 범위 밖 | 레벨에서 해당 볼륨을 고친다 |
@@ -134,7 +134,7 @@ World Partition 맵은 로드된 영역의 액터만 보인다. 내보내기 전
 ## 7. 자동화
 
 - 맵을 고치는 커밋에 내보내기와 `build`가 함께 들어가야 한다. 사람이 기억에 의존하면 반드시 빠진다.
-- 빌드 파이프라인에서 `check`를 돌려 `WORLD004`가 나오면 빌드를 실패시킨다.
+- `mmo-ci-pipeline`이 `check`를 돌리고, 맵 파일이 바뀌었는데 서버 데이터가 바뀌지 않은 변경을 막는다.
 - 에디터를 띄우지 않고 내보내려면 커맨드릿으로 Python을 실행한다:
   `UnrealEditor-Cmd <Project>.uproject <Map> -run=pythonscript -script=<collect_level_data.py 경로>`.
   `ExportNavigation`의 자동 실행은 엔진 버전에 따라 방법이 다르므로 프로젝트에서 확인한다.

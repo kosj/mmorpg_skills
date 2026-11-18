@@ -15,6 +15,7 @@ MMORPG 제작에 필요한 기준과 검사를 Agent Skills 형식(SKILL.md + �
 | `mmo-protocol-check` | FlatBuffers 패킷 정의 검사, 버전 호환 검사, C++ 헤더 생성 | Python |
 | `mmo-netcode-review` | 자체 서버용 넷코드 체크리스트, 언리얼 복제 문법 유입 검사 | Python |
 | `mmo-server-capacity` | 대역폭, 서버 수 어림 계산과 서버 구조 가이드 | Python |
+| `mmo-ci-pipeline` | 바뀐 파일에 맞는 검사를 한 번에 실행, 함께 바뀌어야 하는 파일 규칙, 통합 보고서 | Python |
 | `ue-server-data-export` | 서버용 맵 데이터(내비 지오메트리, 스폰, 볼륨) 묶음 생성과 검사, 클라이언트와의 맵 버전 일치 확인 | 수집은 언리얼 에디터, 묶기와 검사는 Python |
 | `ue-client-contract` | 파츠·탈것·이동 모드·애니메이션·IK·이펙트·날씨·바이옴의 연결 검사와 확장 시 필요한 것 계산 | Python |
 | `ue-character-parts` | 파츠 조립 (Mutable, 소켓 부착), 다수 캐릭터 대응 | 문서 + 규약 검사 |
