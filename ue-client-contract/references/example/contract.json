@@ -1,80 +1,46 @@
 {
-  "_note": "연결 규약 예시. 실제 프로젝트에서는 종류별, 콘텐츠 팩별로 파일을 나눠도 된다. 폴더 안의 모든 .json을 합쳐 읽는다.",
-  "budgets": {
-    "vfx_cost_per_part": 4,
-    "vfx_cost_per_mount": 10,
-    "biome_density_per_100m2": 400,
-    "non_nanite_density_per_100m2": 50
-  },
+  "_note": "연결 규약 예시. 플레이어는 공용 휴머노이드 1개, 탈것은 네발 계열 1개(날개 본 포함)라는 프로젝트 결정을 따른다. 실제 프로젝트에서는 종류별, 콘텐츠 팩별로 파일을 나눠도 된다.",
+  "budgets": {"vfx_cost_per_part": 4, "vfx_cost_per_mount": 10, "biome_density_per_100m2": 400, "non_nanite_density_per_100m2": 50},
   "skeletons": [
-    {"id": "SK_Human", "ik_profile": "IK_Human",
-     "sockets": ["head", "hand_l", "hand_r", "back", "spine_03", "foot_l", "foot_r", "root"]},
-    {"id": "SK_Horse", "ik_profile": "IK_Horse",
-     "sockets": ["saddle", "rein_l", "rein_r", "stirrup_l", "stirrup_r", "hoof_fl", "hoof_fr", "hoof_bl", "hoof_br", "root"]},
-    {"id": "SK_Griffin", "ik_profile": "IK_Griffin",
-     "sockets": ["saddle", "rein_l", "rein_r", "stirrup_l", "stirrup_r", "wing_tip_l", "wing_tip_r", "claw_l", "claw_r", "root"]}
+    {"id": "SK_Human", "ik_profile": "IK_Human", "sockets": ["head", "hand_l", "hand_r", "back", "spine_03", "foot_l", "foot_r", "root"]},
+    {"id": "SK_Quadruped", "ik_profile": "IK_Quadruped", "sockets": ["saddle", "rein_l", "rein_r", "stirrup_l", "stirrup_r", "hoof_fl", "hoof_fr", "hoof_bl", "hoof_br", "wing_tip_l", "wing_tip_r", "root"]}
   ],
   "ik_profiles": [
     {"id": "IK_Human", "skeleton": "SK_Human", "foot_placement": true, "chains": ["leg_l", "leg_r", "arm_l", "arm_r", "spine"]},
-    {"id": "IK_Horse", "skeleton": "SK_Horse", "foot_placement": true, "chains": ["leg_fl", "leg_fr", "leg_bl", "leg_br", "spine"]},
-    {"id": "IK_Griffin", "skeleton": "SK_Griffin", "foot_placement": true, "chains": ["leg_l", "leg_r", "leg_bl", "leg_br", "wing_l", "wing_r"]}
+    {"id": "IK_Quadruped", "skeleton": "SK_Quadruped", "foot_placement": true, "chains": ["leg_fl", "leg_fr", "leg_bl", "leg_br", "spine", "wing_l", "wing_r"]}
   ],
   "slots": [
-    {"id": "Head"}, {"id": "Chest"}, {"id": "Hands"}, {"id": "Legs"}, {"id": "Feet"}, {"id": "Back"}, {"id": "WeaponR"}
+    {"id": "Head"},
+    {"id": "Chest"},
+    {"id": "Hands"},
+    {"id": "Legs"},
+    {"id": "Feet"},
+    {"id": "Back"},
+    {"id": "WeaponR"}
   ],
   "parts": [
     {"id": "P_Plate_Chest", "slot": "Chest", "skeleton": "SK_Human", "requires_sockets": ["spine_03"], "tags": ["armor.heavy"]},
     {"id": "P_Robe_Full", "slot": "Chest", "skeleton": "SK_Human", "covers": ["Legs"], "tags": ["armor.cloth"]},
-    {"id": "P_Cloak_Flame", "slot": "Back", "skeleton": "SK_Human", "requires_sockets": ["back"],
-     "provides_sockets": ["cloak_tip"], "vfx": [{"effect": "FX_Cloak_Ember", "socket": "cloak_tip"}]},
-    {"id": "P_Sword_Frost", "slot": "WeaponR", "skeleton": "SK_Human", "requires_sockets": ["hand_r"],
-     "provides_sockets": ["blade_tip"], "vfx": [{"effect": "FX_Weapon_Frost", "socket": "blade_tip"}]}
+    {"id": "P_Cloak_Flame", "slot": "Back", "skeleton": "SK_Human", "requires_sockets": ["back"], "provides_sockets": ["cloak_tip"], "vfx": [{"effect": "FX_Cloak_Ember", "socket": "cloak_tip"}]},
+    {"id": "P_Sword_Frost", "slot": "WeaponR", "skeleton": "SK_Human", "requires_sockets": ["hand_r"], "provides_sockets": ["blade_tip"], "vfx": [{"effect": "FX_Weapon_Frost", "socket": "blade_tip"}]}
   ],
   "movement_modes": [
-    {"id": "ground", "foot_ik": true, "airborne": false,
-     "required_states": ["idle", "walk", "run", "jump", "fall", "land"],
-     "rider_states": ["ride_idle", "ride_move"],
-     "transitions": ["swim", "glide", "fly"]},
-    {"id": "swim", "foot_ik": false, "airborne": false,
-     "required_states": ["swim_idle", "swim_move"], "rider_states": ["ride_idle", "ride_move"],
-     "transitions": ["ground"]},
-    {"id": "glide", "foot_ik": false, "airborne": true,
-     "required_states": ["glide_start", "glide_loop", "land"], "rider_states": [],
-     "transitions": ["ground"]},
-    {"id": "fly", "foot_ik": false, "airborne": true,
-     "required_states": ["takeoff", "fly_idle", "fly_move", "fly_land"],
-     "rider_states": ["ride_takeoff", "ride_fly", "ride_land"],
-     "transitions": ["ground"]}
+    {"id": "ground", "foot_ik": true, "airborne": false, "required_states": ["idle", "walk", "run", "jump", "fall", "land"], "rider_states": ["ride_idle", "ride_move"], "transitions": ["swim", "glide", "fly"]},
+    {"id": "swim", "foot_ik": false, "airborne": false, "required_states": ["swim_idle", "swim_move"], "rider_states": ["ride_idle", "ride_move"], "transitions": ["ground"]},
+    {"id": "glide", "foot_ik": false, "airborne": true, "required_states": ["glide_start", "glide_loop", "land"], "rider_states": [], "transitions": ["ground"]},
+    {"id": "fly", "foot_ik": false, "airborne": true, "required_states": ["takeoff", "fly_idle", "fly_move", "fly_land"], "rider_states": ["ride_takeoff", "ride_fly", "ride_land"], "transitions": ["ground"]}
   ],
   "anim_sets": [
-    {"id": "AS_Human", "skeleton": "SK_Human",
-     "states": ["idle", "walk", "run", "jump", "fall", "land", "swim_idle", "swim_move", "glide_start", "glide_loop"]},
-    {"id": "AS_Human_Ride_Horse", "skeleton": "SK_Human", "states": ["ride_idle", "ride_move"]},
-    {"id": "AS_Human_Ride_Griffin", "skeleton": "SK_Human",
-     "states": ["ride_idle", "ride_move", "ride_takeoff", "ride_fly", "ride_land"]},
-    {"id": "AS_Horse", "skeleton": "SK_Horse", "states": ["idle", "walk", "run", "jump", "fall", "land"]},
-    {"id": "AS_Griffin", "skeleton": "SK_Griffin",
-     "states": ["idle", "walk", "run", "jump", "fall", "land", "takeoff", "fly_idle", "fly_move", "fly_land"]}
+    {"id": "AS_Human", "skeleton": "SK_Human", "states": ["idle", "walk", "run", "jump", "fall", "land", "swim_idle", "swim_move", "glide_start", "glide_loop"]},
+    {"id": "AS_Human_Ride_Quadruped", "skeleton": "SK_Human", "states": ["ride_idle", "ride_move", "ride_takeoff", "ride_fly", "ride_land"]},
+    {"id": "AS_Quadruped", "skeleton": "SK_Quadruped", "states": ["idle", "walk", "run", "jump", "fall", "land", "takeoff", "fly_idle", "fly_move", "fly_land"]}
   ],
   "characters": [
-    {"id": "C_Human", "skeleton": "SK_Human", "anim_set": "AS_Human",
-     "modes": ["ground", "swim", "glide"], "default_mode": "ground"}
+    {"id": "C_Human", "skeleton": "SK_Human", "anim_set": "AS_Human", "modes": ["ground", "swim", "glide"], "default_mode": "ground"}
   ],
   "mounts": [
-    {"id": "M_Horse", "skeleton": "SK_Horse", "anim_set": "AS_Horse",
-     "modes": ["ground"], "default_mode": "ground",
-     "seats": [{"socket": "saddle", "rider_anim_set": "AS_Human_Ride_Horse",
-                "rider_ik_sockets": ["rein_l", "rein_r", "stirrup_l", "stirrup_r"]}],
-     "rider_hidden_slots": [],
-     "vfx": [{"effect": "FX_Hoof_Dust", "socket": "hoof_fl", "mode": "ground"},
-             {"effect": "FX_Hoof_Dust", "socket": "hoof_fr", "mode": "ground"}]},
-    {"id": "M_Griffin", "skeleton": "SK_Griffin", "anim_set": "AS_Griffin",
-     "modes": ["ground", "fly"], "default_mode": "ground",
-     "seats": [{"socket": "saddle", "rider_anim_set": "AS_Human_Ride_Griffin",
-                "rider_ik_sockets": ["rein_l", "rein_r", "stirrup_l", "stirrup_r"]}],
-     "rider_hidden_slots": ["Back"],
-     "vfx": [{"effect": "FX_Wing_Trail", "socket": "wing_tip_l", "mode": "fly"},
-             {"effect": "FX_Wing_Trail", "socket": "wing_tip_r", "mode": "fly"}]}
+    {"id": "M_Horse", "skeleton": "SK_Quadruped", "anim_set": "AS_Quadruped", "modes": ["ground"], "default_mode": "ground", "seats": [{"socket": "saddle", "rider_anim_set": "AS_Human_Ride_Quadruped", "rider_ik_sockets": ["rein_l", "rein_r", "stirrup_l", "stirrup_r"]}], "rider_hidden_slots": [], "vfx": [{"effect": "FX_Hoof_Dust", "socket": "hoof_fl", "mode": "ground"}, {"effect": "FX_Hoof_Dust", "socket": "hoof_fr", "mode": "ground"}]},
+    {"id": "M_Pegasus", "skeleton": "SK_Quadruped", "anim_set": "AS_Quadruped", "modes": ["ground", "fly"], "default_mode": "ground", "seats": [{"socket": "saddle", "rider_anim_set": "AS_Human_Ride_Quadruped", "rider_ik_sockets": ["rein_l", "rein_r", "stirrup_l", "stirrup_r"]}], "rider_hidden_slots": ["Back"], "vfx": [{"effect": "FX_Wing_Trail", "socket": "wing_tip_l", "mode": "fly"}, {"effect": "FX_Wing_Trail", "socket": "wing_tip_r", "mode": "fly"}]}
   ],
   "vfx": [
     {"id": "FX_Cloak_Ember", "category": "part", "cost": 2, "pooled": true, "attach": "socket"},
@@ -86,22 +52,13 @@
     {"id": "FX_Lightning", "category": "weather", "cost": 4, "pooled": true, "attach": "world"}
   ],
   "weather": [
-    {"id": "clear", "transitions": ["rain", "snow"], "vfx": [], "blocked_modes": [],
-     "params": {"rain_intensity": 0.0, "snow_intensity": 0.0, "wind_speed": 2.0, "fog_density": 0.02, "wetness": 0.0, "snow_cover": 0.0}},
-    {"id": "rain", "transitions": ["clear", "storm"], "vfx": ["FX_Rain"], "blocked_modes": [],
-     "params": {"rain_intensity": 0.6, "snow_intensity": 0.0, "wind_speed": 6.0, "fog_density": 0.05, "wetness": 0.8, "snow_cover": 0.0}},
-    {"id": "storm", "transitions": ["rain"], "vfx": ["FX_Rain", "FX_Lightning"], "blocked_modes": ["fly", "glide"],
-     "params": {"rain_intensity": 1.0, "snow_intensity": 0.0, "wind_speed": 18.0, "fog_density": 0.08, "wetness": 1.0, "snow_cover": 0.0}},
-    {"id": "snow", "transitions": ["clear"], "vfx": ["FX_Snow"], "blocked_modes": [],
-     "params": {"rain_intensity": 0.0, "snow_intensity": 0.7, "wind_speed": 4.0, "fog_density": 0.06, "wetness": 0.2, "snow_cover": 0.9}}
+    {"id": "clear", "transitions": ["rain", "snow"], "vfx": [], "blocked_modes": [], "params": {"rain_intensity": 0.0, "snow_intensity": 0.0, "wind_speed": 2.0, "fog_density": 0.02, "wetness": 0.0, "snow_cover": 0.0}},
+    {"id": "rain", "transitions": ["clear", "storm"], "vfx": ["FX_Rain"], "blocked_modes": [], "params": {"rain_intensity": 0.6, "snow_intensity": 0.0, "wind_speed": 6.0, "fog_density": 0.05, "wetness": 0.8, "snow_cover": 0.0}},
+    {"id": "storm", "transitions": ["rain"], "vfx": ["FX_Rain", "FX_Lightning"], "blocked_modes": ["fly", "glide"], "params": {"rain_intensity": 1.0, "snow_intensity": 0.0, "wind_speed": 18.0, "fog_density": 0.08, "wetness": 1.0, "snow_cover": 0.0}},
+    {"id": "snow", "transitions": ["clear"], "vfx": ["FX_Snow"], "blocked_modes": [], "params": {"rain_intensity": 0.0, "snow_intensity": 0.7, "wind_speed": 4.0, "fog_density": 0.06, "wetness": 0.2, "snow_cover": 0.9}}
   ],
   "biomes": [
-    {"id": "B_Forest", "weathers": ["clear", "rain", "storm"],
-     "layers": [{"asset": "PVE_Oak", "density_per_100m2": 6, "nanite": true},
-                {"asset": "PVE_Fern", "density_per_100m2": 120, "nanite": true},
-                {"asset": "SM_Rock_Moss", "density_per_100m2": 10, "nanite": true}]},
-    {"id": "B_Snowfield", "weathers": ["clear", "snow"],
-     "layers": [{"asset": "PVE_Pine", "density_per_100m2": 4, "nanite": true},
-                {"asset": "SM_Rock_Snow", "density_per_100m2": 8, "nanite": true}]}
+    {"id": "B_Forest", "weathers": ["clear", "rain", "storm"], "layers": [{"asset": "PVE_Oak", "density_per_100m2": 6, "nanite": true}, {"asset": "PVE_Fern", "density_per_100m2": 120, "nanite": true}, {"asset": "SM_Rock_Moss", "density_per_100m2": 10, "nanite": true}]},
+    {"id": "B_Snowfield", "weathers": ["clear", "snow"], "layers": [{"asset": "PVE_Pine", "density_per_100m2": 4, "nanite": true}, {"asset": "SM_Rock_Snow", "density_per_100m2": 8, "nanite": true}]}
   ]
 }

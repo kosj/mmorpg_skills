@@ -1,6 +1,6 @@
 ---
 name: mmorpg-router
-description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, protocol check, netcode review, server capacity, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
+description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, protocol check, netcode review, server capacity, server world data export, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
 ---
 
 # MMORPG 프로젝트 라우터
@@ -29,6 +29,7 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 | 스킬/피격/파츠/탈것 이펙트, 이펙트 최적화 | `ue-vfx-niagara` |
 | 날씨, 비/눈/안개/바람, 젖은 표면 | `ue-weather` |
 | 지형, 식생, 배경 에셋 제작과 배치, 바이옴 | `ue-environment-worldbuilding` |
+| 지형, 충돌, 스폰 지점, 볼륨을 바꿨다. 서버용 맵 데이터를 내보내고 버전을 맞춘다 | `ue-server-data-export` |
 | 에디터를 직접 조작한다(액터 배치, 블루프린트 편집 등) | Epic의 `unreal-mcp` 스킬 |
 
 ## 여러 영역에 걸친 작업
@@ -40,12 +41,13 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 3. `mmo-netcode-review`: 네트워크 코드 변경이 있을 때.
 4. `ue-client-contract`: 파츠, 탈것, 이동 모드, 이펙트, 날씨, 바이옴 변경이 있을 때.
 5. `ue-asset-spec-check`: 콘텐츠 변경이 있을 때.
-6. `ue-perf-budget-check`: 위가 통과한 빌드로 측정한다.
+6. `ue-server-data-export`: 맵의 지형, 충돌, 스폰, 볼륨이 바뀌었을 때.
+7. `ue-perf-budget-check`: 위가 통과한 빌드로 측정한다.
 
-예: "새 던전 추가"는 몬스터/드롭 데이터(1), 보스 패턴 패킷(2)과 핸들러(3), 던전 에셋(5), 던전 내 프레임(6)을 모두 본다.
+예: "새 던전 추가"는 몬스터/드롭 데이터(1), 보스 패턴 패킷(2)과 핸들러(3), 던전 에셋(5), 던전 맵의 서버 데이터(6), 던전 내 프레임(7)을 모두 본다.
 
 예: "새 비행 탈것 추가"는 탈것 아이템 데이터(1), 탑승/이착륙 패킷(2)과 핸들러(3), 규약의 탈것·세트·소켓(4),
-탈것 메시(5), 비행 최고 속도에서의 스트리밍(6)을 본다. 만드는 방법은 `ue-mount-flight`, `ue-animation-ik`,
+탈것 메시(5), 비행 최고 속도에서의 스트리밍(7)을 본다. 만드는 방법은 `ue-mount-flight`, `ue-animation-ik`,
 `ue-vfx-niagara`가 다룬다.
 
 ## 클라이언트 분야 스킬의 공통 규칙

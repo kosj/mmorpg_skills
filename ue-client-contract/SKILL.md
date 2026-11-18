@@ -14,7 +14,7 @@ description: Validates the data contract that links client content systems in th
 - `scripts/check_contract.py`: 순수 Python. 규약 폴더의 모든 `.json`을 합쳐 검사하고 연결 표를 만든다.
 - `references/contract-schema.md`: 항목 종류와 필드, 서로 어떻게 이어지는지.
 - `references/rules.md`: 규칙별 의미와 고치는 방법.
-- `references/example/contract.json`: 사람 캐릭터, 말, 그리핀(비행), 날씨 4종, 바이옴 2종 예시.
+- `references/example/contract.json`: 사람 캐릭터, 네발 계열 탈것 2종(말, 비행하는 페가수스), 날씨 4종, 바이옴 2종 예시.
 
 ## 콘텐츠를 추가하거나 바꿨을 때
 
@@ -34,8 +34,10 @@ description: Validates the data contract that links client content systems in th
 ## 확장을 계획할 때
 
 아직 만들지 않은 것을 규약에 먼저 적고 검사기를 돌린다. 나오는 지적이 곧 작업 범위다.
-예: 말에 비행을 추가하려면 탈것의 `modes`에 `fly`를 넣고 돌린다. 말 애니메이션 세트에 없는
-비행 상태와 탑승자 애니메이션 세트에 없는 비행 탑승 상태가 목록으로 나온다.
+예: 급강하 모드를 추가하려면 `movement_modes`에 `dive`를 넣고, 쓸 탈것의 `modes`에 추가한 뒤 돌린다.
+네발 애니메이션 세트에 없는 급강하 상태와 탑승자 세트에 없는 급강하 탑승 상태가 목록으로 나온다.
+반대로 지적이 하나도 없으면 데이터만으로 끝나는 확장이다. 예시에서 말에 `fly`를 추가하면 지적이 없다.
+네발 계열이 스켈레톤과 세트를 공유하고, 그 세트에 비행 상태가 이미 있기 때문이다.
 이렇게 얻은 목록을 사용자에게 주고, 실제 규약 파일은 사용자가 확정한 뒤에 고친다.
 
 ## 분야별 스킬과의 관계
