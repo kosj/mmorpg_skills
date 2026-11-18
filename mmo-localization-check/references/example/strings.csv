@@ -1,0 +1,9 @@
+key,ko,en,max_width
+ui.ok,확인,OK,8
+ui.cancel,취소,Cancel,8
+quest.kill,{monster} {count}마리 처치,Defeat {count} {monster},
+item.count,%d개 보유,%d owned,
+skill.desc.fire,<b>화염</b> 피해를 {0} 줍니다.,Deals {0} <b>fire</b> damage.,
+npc.greet,"어서 오세요, 모험가님.","Welcome, adventurer.",
+common.percent,{0}%,{0}%,
+mount.no_fly,폭풍 속에서는 날 수 없습니다.,You cannot fly in a storm.,

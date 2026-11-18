@@ -14,7 +14,8 @@
     "map_versions": "Content/Data/map_versions.json",
     "asset_facts": "Saved/AssetSpec/facts.json",
     "perf_csv_dir": "Saved/Profiling/CSV",
-    "quests_csv": "Data/Tables/quests.csv"
+    "quests_csv": "Data/Tables/quests.csv",
+    "strings_csv": "Data/Localization/strings.csv"
   },
   "checks": [
     {
@@ -114,6 +115,29 @@
         "{skills}/mmo-quest-check/references/quest-config.json",
         "--md",
         "{reports}/quest.md"
+      ]
+    },
+    {
+      "id": "localization",
+      "title": "현지화 문자열",
+      "stages": [
+        "precommit",
+        "nightly"
+      ],
+      "triggers": [
+        "{strings_csv}"
+      ],
+      "inputs": [
+        "{strings_csv}"
+      ],
+      "command": [
+        "{python}",
+        "{skills}/mmo-localization-check/scripts/check_strings.py",
+        "{strings_csv}",
+        "--config",
+        "{skills}/mmo-localization-check/references/loc-config.json",
+        "--md",
+        "{reports}/localization.md"
       ]
     },
     {

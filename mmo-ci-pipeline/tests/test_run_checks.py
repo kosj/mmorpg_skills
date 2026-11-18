@@ -145,11 +145,13 @@ class RealPipeline(unittest.TestCase):
                 "--var", "contract_dir=ue-client-contract/references/example",
                 "--var", "data_dir=mmo-quest-check/references/example",
                 "--var", "quests_csv=mmo-quest-check/references/example/quests.csv",
-                "--only", "data,economy,quest,combat,protocol,contract", "--out", out])
+                "--var", "strings_csv=mmo-localization-check/references/example/strings.csv",
+                "--only", "data,economy,quest,localization,combat,protocol,contract", "--out", out])
             with open(out, encoding="utf-8") as f:
                 rep = json.load(f)
             self.assertEqual({r["id"]: r["status"] for r in rep["results"]},
-                             {"data": "pass", "combat": "pass", "economy": "pass", "quest": "pass", "protocol": "pass",
+                             {"data": "pass", "combat": "pass", "economy": "pass", "quest": "pass", "localization": "pass",
+                              "protocol": "pass",
                               "contract": "pass"}, rep["results"])
             self.assertEqual(code, 0)
             self.assertTrue(os.path.isfile(os.path.join(d, "contract-matrix.md")))

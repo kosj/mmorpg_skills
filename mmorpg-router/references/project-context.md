@@ -36,6 +36,7 @@
 | 전송 방식 (TCP / UDP 기반 / 혼용) | 미정 | `mmo-netcode-review`, `mmo-server-capacity` |
 | 서버 내비메시 방식 (내보낸 OBJ를 서버에서 다시 빌드 / 엔진의 내비메시를 직접 저장) | 미정. 권장은 서버에서 다시 빌드 | `ue-server-data-export` |
 | 월드 구성 (서버군 분리 / 존 분할 / 단일 월드) | 미정 | `mmo-server-capacity` |
+| 지원 언어 목록과 원문 언어 | 미정. 예시는 원문 한국어, 필수 영어 | `mmo-localization-check` |
 | 소스 컨트롤 (Git + LFS / Perforce)과 프로젝트 폴더 구조 | 미정. 파이프라인 설정의 경로는 예시 | `mmo-ci-pipeline` |
 | 지형 (Landscape / Mesh Terrain) | 미정. Mesh Terrain은 5.8에서 Experimental | `ue-environment-worldbuilding` |
 | 체형 변형의 범위 (키와 비율을 어디까지 허용하는가) | 미정 | `ue-character-parts`, `ue-animation-ik` |
@@ -58,6 +59,7 @@
 - `mmo-netcode-review/references/lint-config.json`
 - `mmo-protocol-check/references/protocol-config.json`
 - `mmo-economy-check/references/economy-config.json` (플레이어 기준 전투력, 등급별 구매 시간 기준)
+- `mmo-localization-check/references/loc-config.json` (원문 언어, 대상 언어, 폭 기준)
 - `mmo-quest-check/references/quest-config.json` (퀘스트 종류, 허용 기준)
 - `mmo-combat-skill/references/combat-config.json` (전역 쿨다운, 서버 틱, 최대 사거리, 기준 능력치)
 - `ue-client-contract/references/example/contract.json` (예산, 상태 이름, 소켓 이름 모두 예시.

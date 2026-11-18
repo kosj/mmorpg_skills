@@ -1,6 +1,6 @@
 ---
 name: mmorpg-router
-description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, combat skill data, economy and progression, quest data, protocol check, netcode review, server capacity, server world data export, the check pipeline, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
+description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Holds the project context (platform, frame target, decided and undecided architecture choices) and routes a task to the right project skill - asset spec check, performance budget, game data validation, combat skill data, economy and progression, quest data, protocol check, netcode review, server capacity, server world data export, the check pipeline, localization strings, release checks, and the client skills (content contract, character parts, animation and IK, mounts and flight, VFX, weather, environment). Use at the start of any task in this project, when unsure which skill applies, when a task spans several areas, or when asked about project standards, 프로젝트 기준, 어떤 스킬, 제작 파이프라인, 체크리스트.
 ---
 
 # MMORPG 프로젝트 라우터
@@ -33,6 +33,8 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 | 날씨, 비/눈/안개/바람, 젖은 표면 | `ue-weather` |
 | 지형, 식생, 배경 에셋 제작과 배치, 바이옴 | `ue-environment-worldbuilding` |
 | 지형, 충돌, 스폰 지점, 볼륨을 바꿨다. 서버용 맵 데이터를 내보내고 버전을 맞춘다 | `ue-server-data-export` |
+| 문자열이나 번역을 추가/수정했다 | `mmo-localization-check` |
+| 릴리스, 패치, 핫픽스를 준비한다. 클라이언트와 서버 빌드가 맞는지 확인한다 | `mmo-release-check` |
 | 변경을 올리기 전에 관련 검사를 한 번에 돌린다. 커밋 전 훅이나 야간 빌드를 설정한다 | `mmo-ci-pipeline` |
 | 에디터를 직접 조작한다(액터 배치, 블루프린트 편집 등) | Epic의 `unreal-mcp` 스킬 |
 
@@ -80,5 +82,7 @@ description: Entry point for work on this Unreal Engine 5.8 MMORPG project. Hold
 - `scripts/`: 판정 로직. Unreal에 의존하는 수집 코드와 순수 Python 판정 코드를 분리한다.
 - `references/`: 기준값(JSON)과 규칙 설명(`rules.md`). 수치는 여기에만 둔다.
 - `tests/`: 판정 로직의 통과/위반 사례.
+- 새 스킬을 추가한 뒤 팩 최상위의 `check_pack.py`를 돌린다. README, 이 라우터의 표, 검사 파이프라인에
+  빠진 연결과 문서에 설명되지 않은 규칙 ID를 알려 준다.
 - 판정은 스크립트가 한다. 종료 코드는 0 통과, 1 error 있음, 2 입력 문제.
 - 보고서는 `report.json`과 `report.md` 두 가지로 낸다.
