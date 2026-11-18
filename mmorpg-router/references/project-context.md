@@ -15,7 +15,8 @@
 | 프로토콜 형식 | FlatBuffers. 클라이언트와 서버가 같은 `.fbs`에서 코드를 생성한다 |
 | 이동 컴포넌트 | Character Movement Component (CMC). 게임 코드는 자체 이동 인터페이스를 거친다. Mover는 UE6 이전 시 다시 평가한다 |
 | 플레이어 스켈레톤 | 1개 (공용 휴머노이드). 성별과 체형 차이는 스켈레톤을 늘리지 않고 메시 변형과 비율 조정으로 만든다 |
-| 탈것 스켈레톤 | 계열별 1개 (네발, 날개 달린 네발, 조류형 등). 같은 계열의 탈것은 스켈레톤과 애니메이션 세트를 공유한다 |
+| 탈것 스켈레톤 | 네발 계열 1개. 모든 탈것이 네발 스켈레톤과 애니메이션 세트를 공유한다 |
+| 전투 방식 | 타겟팅. 클라이언트는 스킬 ID와 대상 ID를 보내고, 명중과 피해는 서버가 판정한다 |
 | 복제 시스템 | 해당 없음. 게임플레이 동기화에 언리얼 복제(Replicated, RPC, Iris, Replication Graph)를 쓰지 않는다 |
 
 ## 자체 서버 결정이 뜻하는 것
@@ -37,12 +38,11 @@
 | 월드 구성 (서버군 분리 / 존 분할 / 단일 월드) | 미정 | `mmo-server-capacity` |
 | 지형 (Landscape / Mesh Terrain) | 미정. Mesh Terrain은 5.8에서 Experimental | `ue-environment-worldbuilding` |
 | 체형 변형의 범위 (키와 비율을 어디까지 허용하는가) | 미정 | `ue-character-parts`, `ue-animation-ik` |
-| 탈것 계열 목록 | 미정. 예시는 네발(말)과 날개 달린 네발(그리핀) | `ue-mount-flight`, `ue-client-contract` |
+| 비행 탈것의 스켈레톤 | 확인 필요. 권장안은 네발 스켈레톤에 날개 본을 포함해 두고 날개 없는 탈것은 그 본을 쓰지 않는 것 | `ue-mount-flight`, `ue-animation-ik`, `ue-client-contract` |
 | 규약 데이터 폴더 위치, 이동 모드와 상태 이름 | 미정. 예시 값 사용 중 | `ue-client-contract` |
 | 최소/권장 PC 사양 | 미정 | `ue-perf-budget-check` (측정 기준 PC) |
 | 목표 해상도와 그래픽 프리셋 | 미정 | `ue-perf-budget-check` |
 | 대규모 전투 목표 인원 | 미정 | `mmo-server-capacity`, `ue-perf-budget-check` |
-| 전투 방식 (타겟팅 / 논타겟팅 액션) | 미정 | `mmo-netcode-review` |
 | 기획 데이터 형식과 위치 | 미정 | `mmo-data-check` |
 | 아트 스타일 (실사 / 스타일라이즈드) | 미정 | `ue-asset-spec-check` |
 
@@ -56,7 +56,9 @@
 - `mmo-server-capacity/references/scenario.json` (동시 접속과 서버 정원은 결정 전까지 가정값)
 - `mmo-netcode-review/references/lint-config.json`
 - `mmo-protocol-check/references/protocol-config.json`
-- `ue-client-contract/references/example/contract.json` (예산, 상태 이름, 소켓 이름 모두 예시)
+- `ue-client-contract/references/example/contract.json` (예산, 상태 이름, 소켓 이름 모두 예시.
+  예시는 말과 그리핀을 서로 다른 스켈레톤으로 두고 있어, 네발 1계열이라는 프로젝트 결정과 다르다.
+  실제 규약 데이터를 만들 때는 탈것 스켈레톤과 세트를 하나로 둔다)
 
 ## 기술 선택 원칙
 
