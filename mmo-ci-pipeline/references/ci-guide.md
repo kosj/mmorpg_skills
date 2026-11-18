@@ -21,6 +21,7 @@
 |---|---|---|---|
 | 기획 데이터 (`mmo-data-check`) | O | O | 아니오 |
 | 전투 스킬 데이터 (`mmo-combat-skill`) | O | O | 아니오 |
+| 성장과 재화 흐름 (`mmo-economy-check`) | O | O | 아니오 |
 | 프로토콜 (`mmo-protocol-check`) | O | O | 아니오 |
 | 언리얼 복제 문법 유입 (`mmo-netcode-review`) | O | O | 아니오 |
 | 클라이언트 연결 규약 (`ue-client-contract`) | O | O | 아니오 |

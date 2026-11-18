@@ -79,6 +79,12 @@ class DataCheck(unittest.TestCase):
         self.assertEqual(rules(r), ["DATA010"])
         self.assertIn("무한", r["findings"][0]["message"])
 
+    def test_item_not_sold_by_vendors_may_have_sell_price(self):
+        # 구매가 0은 상점에서 팔지 않는 드롭 재료다. 판매가가 있어도 되팔기 차익이 아니다
+        r = run({"items.csv": "id,name,grade,level_req,price_buy,price_sell,max_stack\n"
+                              "1,Sword,common,1,100,25,1\n2,Fang,common,1,0,3,99\n"})
+        self.assertEqual(rules(r), [])
+
     def test_level_curve(self):
         r = run({"levels.csv": "level,exp_required\n1,0\n2,100\n3,90\n5,300\n"})
         self.assertEqual(rules(r), ["DATA011", "DATA012"])

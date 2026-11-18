@@ -158,6 +158,8 @@ class Checker:
     def _chk_lte(self, name, rows, chk):
         for r in rows:
             a, b = r.get(chk["left"]), r.get(chk["right"])
+            if chk.get("skip_when_right_zero") and b == 0:
+                continue  # 예: 구매가 0은 상점에서 팔지 않는 아이템이라 되팔기 차익이 생기지 않는다
             if a is not None and b is not None and a > b:
                 self.add("DATA010", name, r["_line"], chk["left"],
                          f"{chk['left']}({a})이(가) {chk['right']}({b})보다 큼"
